@@ -4,21 +4,19 @@ A set of template files for national/regional dashboards with accompanying docum
 
 ## Setup
 
-Using the Data Server, open Rstudio and run from the console:
+Using the Data Server, open an R console (e.g., using RStudio):
 
 ```r
 install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
-salicprep::new_state("state-abbreviation") # to be written
+salicprep::new_state("state-abbreviation") # function to be written
 ```
 
-The software environment was specified using [package renv](https://rstudio.github.io/renv/index.html), and this needs to be restored from the R console:
+The software environment was specified using [package renv](https://rstudio.github.io/renv/index.html), and this needs to be restored:
 
 ```r
 renv::restore()
-
-# update the state of the project library after you install new packages
-renv::snapshot()
+renv::snapshot() # update the state of the project library after you install new packages
 ```
 
 ## Usage
