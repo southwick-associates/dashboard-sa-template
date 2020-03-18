@@ -12,7 +12,9 @@ Using the Southwick Data Server, open an R console (e.g., using RStudio) and pop
 install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
 salicprep::new_state("state-abbreviation") # function to be written
-renv::restore() # build package library
+
+# go to the new directory and rebuild the project package library
+renv::restore()
 ```
 
 ### Performing Analysis
