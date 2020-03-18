@@ -3,6 +3,20 @@
 
 This document details the rules for storing data in a standardized fashion using [sqlite](https://www.sqlite.org/index.html), which allows standard procedures to be applied to any state's data. The file paths below refer to locations on the Data Server under "E:/SA/". Occurences of "[state]" refers to 2-letter abbreviations and "[period]" refers to the most recent time period covered for a dataset (e.g., 2019-q2, 2019-q4, etc.).
 
+## Overview
+
+Each data pull is to be processed through three steps:
+
+- raw data from the state is saved directly into a database
+- an intermediate standard database is used for subsequent validation and deduplication 
+- a final production dataset contains only those fields necessary for dashboard production
+
+Ultimately, we will be creating production database with strict data formatting rules to facilitate dashboard production. The final production data requires only 9 variables, and all personally-identifiable information is excluded:
+
+![](./img/relations.png)
+
+*Note that although residency (res) is a customer-level variable, it can change over time; hence the recommended sale-level specification.*
+
 ## Raw Data
 
 File path: `./Data-sensitive/[state]/raw-[period].sqlite3`
@@ -13,7 +27,8 @@ No schemas are included for raw data; states vary in how they store data and the
 
 File path: `./Data-sensitive/[state]/standard.sqlite3`
 
-The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull when go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should be appended with this new dataset, identifiable in each table with the corresponding "period" column.
+The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull would first go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should then be appended with this new dataset. The data provenance is tracked in each table using the corresponding "period" column.
+
 
 ### Standardization Guidelines
 
@@ -21,7 +36,7 @@ The standardized database potentially includes multiple data pulls. For example,
 - Standard coding should be used for categorical data (sex, residency, dates)
 - Some fields might vary depending on the needs of individual states
 
-### Schema for "cust" Table
+### Schema for "cust":
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -35,7 +50,7 @@ The standardized database potentially includes multiple data pulls. For example,
 | state | state residency (if available) | 2-character abbreviations for US/Canada | | char | | |
 | cust_res | customer residency | 1, 0, NA | 1=Res, 0=Nonres | int | | |
 
-### Schema for "sale" Table
+### Schema for "sale":
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
