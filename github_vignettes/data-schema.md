@@ -7,11 +7,11 @@ This document details the rules for storing data in a standardized fashion using
 
 Each data pull is to be processed through three steps:
 
-- raw data from the state is saved directly into a database
-- an intermediate standard database is used for subsequent validation and deduplication 
-- a final production dataset contains only those fields necessary for dashboard production
+- Raw data from the state is saved directly into a database
+- An intermediate standard database is used for subsequent validation and deduplication 
+- A final production dataset contains only those fields necessary for dashboard production
 
-Ultimately, we will be creating production database with strict data formatting rules to facilitate dashboard production. The final production data requires only 9 variables, and all personally-identifiable information is excluded:
+Ultimately, we will be creating a production database with strict data formatting rules to facilitate dashboard production. The final production data requires only 9 variables, and all personally-identifiable information is excluded:
 
 ![](./img/relations.png)
 
@@ -27,8 +27,7 @@ No schemas are included for raw data; states vary in how they store data and the
 
 File path: `./Data-sensitive/[state]/standard.sqlite3`
 
-The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull would first go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should then be appended with this new dataset. The data provenance is tracked in each table using the corresponding "period" column.
-
+The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull would first go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should then be appended with this new dataset (a UNION in SQL parlance). The data provenance is tracked in each table using the corresponding "period" column.
 
 ### Standardization Guidelines
 
@@ -37,6 +36,8 @@ The standardized database potentially includes multiple data pulls. For example,
 - Some fields might vary depending on the needs of individual states
 
 ### Schema for "cust":
+
+The combination of raw_cust_id and cust_period should uniquely identify each row in the table (i.e., a composite key).
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -65,7 +66,13 @@ The standardized database potentially includes multiple data pulls. For example,
 
 ## Production Data
 
-### License
+### Schema for "cust":
+
+The cust_id field should uniquely identify each row in the table (i.e., a primary key)
+
+## Other Production Data
+
+Not sure if I will outline these here.
 
 ### History
 
