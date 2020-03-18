@@ -32,6 +32,6 @@ Source a sequence of R scripts (in process) in order to:
 
 - [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
 - Workflow Overview
-    + Data required from states
+    + [Data required from states](github_vignettes/data-required.md)
     + Data Schemas (raw, standard, production)
     + Data Validation
