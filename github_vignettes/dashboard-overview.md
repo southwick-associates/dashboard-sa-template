@@ -1,5 +1,65 @@
-Dashboard Overview
+Dashboard Analyst Introduction
 ================
 March 18, 2020
 
 ## Overview
+
+Data dashboards provide a visual representation of hunting and fishing
+license sales; summarizing both recent and long-term trends.
+Participation metrics are presented for anglers and hunters as a whole
+and also broken out over demographic groups, including residency,
+gender, and age.
+
+### Partial Snapshot of Tableau Dashboard
+
+![](./img/dashboard-snapshot.png)
+
+## Analyst Expectations
+
+The data used to compile dashboards comes largely from state agency
+databases; the analysis task involves preparing these idiosyncratic data
+sources for dashboard production:
+
+  - Connect to a Southwick server, accessed using Windows built-in VPN
+    and Remote Desktop functionality.
+  - Follow Southwick protocols to ensure security of sensitive data.
+  - Adapt (or rewrite) template R scripts to process large data files
+    (\~10+ million rows), utilizing available R resources to write and
+    debug code.
+  - Collaborate with project manager to accurately process/validate data
+    and troubleshoot data challenges.
+
+## Input: Raw License Data
+
+State agencies provide raw license data, which is typically separated
+into three related tables. A generic example:
+
+![](./img/license-relation-clipped.png)
+
+### Data Processing Goals
+
+  - Validate to ensure complete and accurate data
+  - Summarize to get a sense for licensing trends and state-specific
+    data peculiarities
+  - Standardize to facilitate efficient workflows
+  - Anonymize to remove sensitive information from production data
+  - Create additional data categories to enable retrieval of customer
+    trends
+
+## Output: SQLite Database
+
+The expected data processing output is superficially quite similar to
+the data processing input, but is structured in a way which makes it
+easy to extract participation metrics to build interactive dashboards:
+
+![](./img/license-production.png)
+
+## Example R Code
+
+I’ve included some example R code (and output) below to give a sense of
+what part of a workflow might look like:
+
+  - Purpose: Ask a data question and answer using R
+  - Question: How has the number of resident hunting licensed buyers
+    changed year to year? In particular, what do the dynamics look like
+    by age and gender?
