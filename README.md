@@ -2,6 +2,14 @@
 
 A set of template files for national/regional dashboard processing with accompanying documentation and examples for Southwick analysts.
 
+## Documentation
+
+- [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
+- Workflow Overview
+    + [Data required from states](github_vignettes/data-required.md)
+    + [Data Schemas (standard, production)](github_vignettes/data-schema.md)
+    + Data Validation
+    
 ## Usage
 
 ### Setting up an Analysis
@@ -27,11 +35,3 @@ Source a sequence of R scripts (in process) in order to:
 4. perform initial validation
 5. write anonymized production data into sqlite for building dashboards
 6. perform final validation
-
-## Documentation
-
-- [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
-- Workflow Overview
-    + [Data required from states](github_vignettes/data-required.md)
-    + Data Schemas (raw, standard, production)
-    + Data Validation
