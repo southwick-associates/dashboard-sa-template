@@ -23,7 +23,8 @@ renv::snapshot() # update the state of the project library after you install new
 
 The vignettes (to be written) are used for documentation:
 
+- [Dashboard Overview](./github-vignettes/dashboard-overview.md)
 - Workflow Overview
-- Data required from states
-- Data Schemas (raw, standard, production)
-- Data Validation
+    + Data required from states
+    + Data Schemas (raw, standard, production)
+    + Data Validation
