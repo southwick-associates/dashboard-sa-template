@@ -12,12 +12,12 @@ Using the Southwick Data Server, open an R console (e.g., using RStudio) and pop
 install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
 salicprep::new_state("state-abbreviation") # function to be written
-renv::restore() # build package libraryh
+renv::restore() # build package library
 ```
 
 ### Performing Analysis
 
-Source a sequence of R scripts ([1-prep-license-data/](1-prep-license-data)) to:
+Source a sequence of R scripts (in process) in order to:
 
 1. load raw data into a sqlite database
 2. standardize raw data into a generic format
