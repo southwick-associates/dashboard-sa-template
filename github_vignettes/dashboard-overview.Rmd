@@ -5,7 +5,8 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(DBI)
 ```
 
 ## Overview
@@ -53,5 +54,16 @@ I've included some example R code (and output) below to give a sense of what par
 - Question: How has the number of resident hunting licensed buyers changed year to year? In particular, what do the dynamics look like by age and gender?
 
 ```{r}
+library(tidyverse)
+library(DBI)
 
+db_production <- "E:/SA/Data-production/Data-Dashboards/IA/license.sqlite3"
+con <- dbConnect(RSQLite::SQLite(), db_production)
+
+tbl(con, "sale") %>%
+    glimpse()
+
+dbDisconnect(con)
+
+# TODO: pull in data and make a plot
 ```

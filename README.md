@@ -2,7 +2,7 @@
 
 A set of template files for national/regional dashboard processing with accompanying documentation and examples for Southwick analysts.
 
-## Setup
+## Setting up an Analysis
 
 Using the Southwick Data Server, open an R console (e.g., using RStudio):
 
@@ -21,7 +21,7 @@ renv::snapshot() # update the state of the project library after you install new
 
 ## Usage
 
-The vignettes (in process) are used for documentation:
+The vignettes (in process) document dashboard production:
 
 - [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
 - Workflow Overview
