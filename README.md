@@ -13,11 +13,11 @@ install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
 salicprep::new_state("state-abbreviation") # function to be written
 
-# go to the new directory and rebuild the project package library
+# go to the new directory and build the project package library
 renv::restore()
 ```
 
-### Performing Analysis
+### Performing an Analysis
 
 Source a sequence of R scripts (in process) in order to:
 
@@ -29,8 +29,6 @@ Source a sequence of R scripts (in process) in order to:
 6. perform final validation
 
 ## Documentation
-
-The vignettes (in process) document dashboard production:
 
 - [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
 - Workflow Overview
