@@ -2,24 +2,31 @@
 
 A set of template files for national/regional dashboard processing with accompanying documentation and examples for Southwick analysts.
 
-## Setting up an Analysis
+## Usage
 
-Using the Southwick Data Server, open an R console (e.g., using RStudio):
+### Setting up an Analysis
+
+Using the Southwick Data Server, open an R console (e.g., using RStudio) and populate a directory with template files:
 
 ```r
 install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
 salicprep::new_state("state-abbreviation") # function to be written
+renv::restore() # build package libraryh
 ```
 
-The software environment was specified using [package renv](https://rstudio.github.io/renv/index.html), and this needs to be restored for a new state:
+### Performing Analysis
 
-```r
-renv::restore()
-renv::snapshot() # update the state of the project library after you install new packages
-```
+Source a sequence of R scripts ([1-prep-license-data/](1-prep-license-data)) to:
 
-## Usage
+1. load raw data into a sqlite database
+2. standardize raw data into a generic format
+3. prepare license type categorization
+4. perform initial validation
+5. write anonymized production data into sqlite for building dashboards
+6. perform final validation
+
+## Documentation
 
 The vignettes (in process) document dashboard production:
 
