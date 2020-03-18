@@ -13,17 +13,21 @@ Guidelines:
 - Standard coding should be used for categorical data (sex, residency, dates)
 - Some fields might vary depending on the needs of individual states
 
-### cust
+### Table Name = cust
 
-| Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes |
-| --- | --- | --- | --- | --- | --- |
-| cust_id | unique customer ID | | | int | |
-| sex | | 1,2,NA | 1=Male, 2=Female | int | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| raw_cust_id | ID for linking to raw data | | | int | | composite key |
+| cust_period | [period] | | | char | for use when data updates are needed | composite key |
+| cust_id | unique customer ID | | | int | | |
+| sex | | 1,2,NA | 1=Male, 2=Female | int | | |
+| dob | date of birth | yyy-mm-dd | | char | | |
+| last | last name (trimmed & lowercase) | | | char | for cust_id validation | |
+| first | first name (trimmed & lowercase) | | | char | for cust_id validation | |
+| state | state residency (if available) | 2-character abbreviations for US/Canada | | char | | |
+| cust_res | customer residency | 1,0,NA | 1=Res, 0=Nonres | int | | |
 
-### sale
+### Table Name = sale
 
 ## Production Data
 
