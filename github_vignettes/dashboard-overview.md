@@ -16,9 +16,11 @@ gender, and age.
 
 ## Analyst Expectations
 
-The data used to compile dashboards comes largely from state agency
-databases; the analysis task involves preparing these idiosyncratic data
-sources for dashboard production:
+The analyst role in the dashboard production focuses on processing
+hunting and fishing license data. The data comes from state agency
+databases; the analysis task involves preparing and standardizing these
+idiosyncratic data sources. The work expectations hinge upon capability
+in an R-based workflow:
 
   - Connect to a Southwick server, accessed using Windows built-in VPN
     and Remote Desktop functionality.
@@ -49,8 +51,9 @@ into three related tables. A generic example:
 ## Output: SQLite Database
 
 The expected data processing output is superficially quite similar to
-the data processing input, but is structured in a way which makes it
-easy to extract participation metrics to build interactive dashboards:
+the data processing input, but is standardized across states and
+structured in a way which makes it easy to extract participation metrics
+for building interactive dashboards:
 
 ![](./img/license-production.png)
 
@@ -61,8 +64,8 @@ what part of a workflow might look like:
 
   - Purpose: Ask a data question and answer using R
   - Question: How has the number of resident hunting licensed buyers
-    changed year to year? In particular, what do the dynamics look like
-    by age and gender?
+    changed over five years? In particular, what do the dynamics look
+    like by age and gender?
 
 <!-- end list -->
 
@@ -70,28 +73,34 @@ what part of a workflow might look like:
 library(tidyverse)
 library(DBI)
 
+# pull data
 db_production <- "E:/SA/Data-production/Data-Dashboards/IA/license.sqlite3"
 con <- dbConnect(RSQLite::SQLite(), db_production)
-
-tbl(con, "sale") %>%
-    glimpse()
-```
-
-    ## Observations: ??
-    ## Variables: 11
-    ## Database: sqlite 3.30.1 [E:\SA\Data-production\Data-Dashboards\IA\license.sqlite3]
-    ## $ raw_sale_id <int> 8835408, 8835973, 8837039, 8838948, 8841802, 8845057, 8...
-    ## $ cust_id     <dbl> 2366078, 990679052, 831167275, 745356, 248978520, 97217...
-    ## $ lic_id      <int> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5...
-    ## $ year        <int> 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2...
-    ## $ month       <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2...
-    ## $ dot         <chr> "2013-01-02", "2013-01-02", "2013-01-02", "2013-01-03",...
-    ## $ start_date  <chr> "2013-01-01", "2013-01-01", "2013-01-01", "2013-01-01",...
-    ## $ end_date    <chr> "2016-01-10", "2016-01-10", "2016-01-10", "2016-01-10",...
-    ## $ res         <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
-    ## $ revenue     <dbl> 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 53,...
-    ## $ sale_period <chr> "2018-q4", "2018-q4", "2018-q4", "2018-q4", "2018-q4", ...
-
-``` r
+sale_res <- tbl(con, "sale") %>%
+    filter(res == 1, year >= 2014, year <= 2018) %>% # exclude nonresidents
+    select(cust_id, year) %>%
+    collect()
+cust <- tbl(con, "cust") %>%
+    select(cust_id, sex, birth_year) %>%
+    collect()
 dbDisconnect(con)
+
+# produce visual to expore question
+x <- sale_res %>%
+    left_join(cust, by = "cust_id") %>%
+    distinct() %>% # ensure one customer per year
+    filter(!is.na(sex), !is.na(birth_year)) %>%
+    mutate(
+        sex = factor(sex, 1:2, c("Male", "Female")),
+        age = year - birth_year,
+        agecat = cut(age, breaks = c(-Inf, 30, 50, Inf))
+    )
+
+x %>%
+    ggplot(aes(year)) +
+    geom_bar() +
+    facet_grid(sex ~ agecat) +
+    ggtitle("Resident Hunters per Year (2014 thru 2018) - Age Category by Gender")
 ```
+
+![](dashboard-overview_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
