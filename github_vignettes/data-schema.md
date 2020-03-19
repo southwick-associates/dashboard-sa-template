@@ -7,13 +7,13 @@ This document details the rules for storing data in a standardized format using 
 
 Each data pull from a state agency is to be processed through three steps:
 
-- Data from the state is saved as-is into a "raw" database: `./Data-sensitive/[state]/raw-[period].sqlite3`
+- Data from the state is saved largely as-is into a "raw" database: `./Data-sensitive/[state]/raw-[period].sqlite3`
 - An intermediate "standard" database is built to facilitate subsequent validation and deduplication (if needed): `./Data-sensitive/[state]/standard.sqlite3`
-- A final production dataset is written that contains only those fields necessary for dashboard production:  `./Data-production/[state]/license.sqlite3`
+- A final database is built that contains only those fields necessary for dashboard production:  `./Data-production/[state]/license.sqlite3`
 
 ## Production Data
 
-The endpoint of the data processing is a production database of 3 tables with strict data formatting rules to facilitate dashboard production. The data requires only 9 variables, and all personally-identifiable information is excluded:
+The endpoint of the data processing is a production database of 3 tables with strict data formatting rules to facilitate dashboard production. At the basic level, dashboard production requires only 9 variables (although several more variables are included for data provenance and validation). All personally-identifiable information must be excluded from the production data.
 
 ![](./img/relations.png)
 
@@ -21,7 +21,7 @@ The endpoint of the data processing is a production database of 3 tables with st
 
 ### Sample Data
 
-You can view example production data using Southwick's `salic` R package:
+You can view example production data using Southwick's `salic` R package. More in-depth background about the data structure is included in the [salic vignette](https://southwick-associates.github.io/salic/articles/salic.html) where production data is referred to as "standardized license data".
 
 ```r
 install.packages("remotes")
@@ -29,7 +29,11 @@ remotes::install_github("southwick-associates/salic")
 data(cust, lic, sale, package = "salic")
 ```
 
-More in-depth background about the data structure is included in the [salic vignette](https://southwick-associates.github.io/salic/articles/salic.html) where production data is referred to as "standardized license data".
+### Standardization Guidelines
+
+- Standard names should be used
+- Standard coding should be used for categorical data (sex, residency, dates)
+- Some fields might vary depending on the needs of individual states
 
 ### Schema for "lic":
 
@@ -39,9 +43,9 @@ The lic table corresponds to unique license types. The lic_id field should uniqu
 | --- | --- | --- | --- | --- | --- | --- |
 | lic_id | unique license ID | | | int (usually) | | primary key |
 | description | generic description for each lic_id | | | char | provided by state | |
-| type | overall license type | fish, hunt, combo | | char | created by SA | |
+| type | overall license type | fish, hunt, combo | | char | created by SA (note that "combo" refers to a license that provides both a hunting and fishing privilege) | |
 | duration | how many years the license/permit lasts | 1, 2, ..., 99 | 1=1yr/short-term, 2=2yr, ..., 99=lifetime| int | necessary where multi-year/lifetime licenses are present | |
-| lic_res | in-state residency for residency-specific licenses | 1, 0, NA | 1=Res, 2=Nonres | int | | |
+| lic_res | in-state residency for residency-specific licenses | 1, 0, NA | 1=Res, 0=Nonres | int | | |
 | raw_lic_id | ID for linking to raw data | | | int | row number from raw data | |
 | lic_period | [period] | | | char | time period of data pull | |
 
@@ -81,12 +85,6 @@ No schemas are included for raw data; states vary in how they store data and the
 ## Standard Data
 
 The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull would first go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should then be appended with this new dataset (a UNION in SQL parlance). The data provenance is tracked in each table using the corresponding "period" column.
-
-### Standardization Guidelines
-
-- Standard names should be used
-- Standard coding should be used for categorical data (sex, residency, dates)
-- Some fields might vary depending on the needs of individual states
 
 ### Schema for "cust":
 
