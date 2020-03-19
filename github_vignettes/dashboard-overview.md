@@ -25,8 +25,8 @@ in an R-based workflow:
   - Adapt (or rewrite) template R scripts to process large data files
     (\~10+ million rows), utilizing available R resources to write and
     debug code.
-  - Collaborate with project manager to accurately process/validate data
-    and troubleshoot data challenges.
+  - Collaborate with a project manager to accurately process/validate
+    data and troubleshoot data challenges.
 
 ## Input: Raw License Data
 
@@ -41,7 +41,7 @@ into three related tables. A generic example:
   - Summarize to get a sense for licensing trends and state-specific
     data peculiarities
   - Standardize to facilitate efficient workflows
-  - Anonymize to remove sensitive information from production data
+  - Anonymize to exclude sensitive information from production data
   - Create additional data categories to enable retrieval of customer
     trends
 
@@ -57,7 +57,8 @@ for building interactive dashboards:
 ## Example R Code
 
 I’ve included some example R code (and output) below to give a sense of
-what part of a workflow might look like:
+what a question-driven workflow might look like using the
+[SQLite](https://db.rstudio.com/databases/sqlite/) production database.
 
   - Purpose: Ask a data question and answer using R
   - Question: How has the number of resident hunting licensed buyers

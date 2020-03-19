@@ -21,7 +21,7 @@ The analyst role in the dashboard production focuses on processing hunting and f
 - Connect to a Southwick server, accessed using Windows built-in VPN and Remote Desktop functionality.
 - Follow Southwick protocols to ensure security of sensitive data.
 - Adapt (or rewrite) template R scripts to process large data files (~10+ million rows), utilizing available R resources to write and debug code.
-- Collaborate with project manager to accurately process/validate data and troubleshoot data challenges.
+- Collaborate with a project manager to accurately process/validate data and troubleshoot data challenges.
 
 ## Input: Raw License Data
 
@@ -34,7 +34,7 @@ State agencies provide raw license data, which is typically separated into three
 - Validate to ensure complete and accurate data
 - Summarize to get a sense for licensing trends and state-specific data peculiarities
 - Standardize to facilitate efficient workflows
-- Anonymize to remove sensitive information from production data
+- Anonymize to exclude sensitive information from production data
 - Create additional data categories to enable retrieval of customer trends 
 
 ## Output: SQLite Database
@@ -45,7 +45,7 @@ The expected data processing output is superficially quite similar to the data p
 
 ## Example R Code
 
-I've included some example R code (and output) below to give a sense of what part of a workflow might look like:
+I've included some example R code (and output) below to give a sense of what a question-driven workflow might look like using the [SQLite](https://db.rstudio.com/databases/sqlite/) production database.
 
 - Purpose: Ask a data question and answer using R
 - Question: How has the number of resident hunting licensed buyers changed over five years? In particular, what do the dynamics look like by age and gender?
