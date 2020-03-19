@@ -3,15 +3,17 @@
 
 This document outlines the workflow for processing data for dashboards. It is an R-based workflow and utilizes custom R packages developed by Southwick ([salic](https://github.com/southwick-associates/salic), [salicprep](https://github.com/southwick-associates/salicprep)). This analysis is intended to be performed using the Southwick Data Server, which (1) keeps all sensitive data confined to a single location, and (2) ensures a consistent (shared) software environment to facilitate collaboration and reproducibility.
 
-0. [Initialize New State](#initialize-new-state)
+### Analysis Steps
+
+0. [Initialize New State (incomplete)](#initialize-new-state)
 1. [Load Raw date into SQLite](#load-raw-data-into-sqlite)
 2. [Standardize Data](#standardize-data)
 3. [Prep License Type Categories](#prep-license-type-categories)
 4. [Initial Validation](#initial-validation)
 5. [Finalize Production Data](#finalize-production-data)
-6. [Final Validation](#final-validation)
+6. [Final Validation (incomplete)](#final-validation)
 
-## Data Server
+## Data Server Usage
 
 TODO: Give an overview here and brief login instructions.
 
@@ -36,11 +38,13 @@ The dashboard analysis files are separated from data files:
 
 ## Analysis Steps
 
-Template code is yet to be populated in this repository. It will live in "1-prep-license-data". Rather than needing to clone or download the repo, I'll likely write an `salicprep::new_state(state, period)` to pull the necessary files from the repo into the relevant state-period folder.
+A suggested data processing sequence is outlined below.
 
 ### Initialize new state
 
 TODO
+
+Template code is yet to be populated in this repository. It will live in "1-prep-license-data". Rather than needing to clone or download the repo, I'll likely write an `salicprep::new_state(state, period)` to pull the necessary files from the repo into the relevant state-period folder.
 
 ### Load Raw data into SQLite
 
