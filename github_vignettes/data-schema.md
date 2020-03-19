@@ -33,15 +33,15 @@ data(cust, lic, sale, package = "salic")
 
 - Standard names should be used
 - Standard coding should be used for categorical data (sex, residency, dates)
-- Some fields might vary depending on the needs of individual states
+- Some variation may be needed for certain states, but this should only occur for a good reason (e.g., if an agencies' customer ID is stored as alphanumeric instead of integer)
 
-### Schema for "lic":
+### Schema for "lic"
 
 The lic table corresponds to unique license types. The lic_id field should uniquely identify each row in the table (i.e., it's a primary key).
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| lic_id | unique license ID | | | int (usually) | | primary key |
+| lic_id | unique license ID | | | int | | primary key |
 | description | generic description for each lic_id | | | char | provided by state | |
 | type | overall license type | fish, hunt, combo | | char | created by SA (note that "combo" refers to a license that provides both a hunting and fishing privilege) | |
 | duration | how many years the license/permit lasts | 1, 2, ..., 99 | 1=1yr/short-term, 2=2yr, ..., 99=lifetime| int | necessary where multi-year/lifetime licenses are present | |
@@ -49,20 +49,20 @@ The lic table corresponds to unique license types. The lic_id field should uniqu
 | raw_lic_id | ID for linking to raw data | | | int | row number from raw data | |
 | lic_period | [period] | | | char | time period of data pull | |
 
-### Schema for "cust":
+### Schema for "cust"
 
 The cust table corresponds to unique customers.
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| cust_id | unique customer ID | | | int (usually) | | primary key |
+| cust_id | unique customer ID | | | int | | primary key |
 | sex | | 1, 2, NA | 1=Male, 2=Female | int | | |
 | birth_year | | yyyy | | int | | |
 | cust_res | customer state residency | 1, 0, NA | 1=Res, 0=Nonres | int | | |
 | raw_cust_id | ID for linking to raw data | | | int | | |
 | cust_period | [period] | | | char | for use when data updates are needed | |
 
-### Schema for "sale":
+### Schema for "sale"
 
 The sale table corresponds to transactions (i.e., purchases of specific license types by customers).
 
@@ -86,7 +86,9 @@ No schemas are included for raw data; states vary in how they store data and the
 
 The standardized database potentially includes multiple data pulls. For example, suppose a state sends 10 years of data from Jan 1, 2009 through Dec, 31 2018. This data pull would first go into a `raw-2018-q4.sqlite3` database, and then standardized in `standard.sqlite3`. An updated set of data covers Jan 1, 2018 through Dec 31, 2019 and goes into `raw-2019-q4.sqlite3`. The `standard.sqlite3` tables should then be appended with this new dataset (a UNION in SQL parlance). The data provenance is tracked in each table using the corresponding "period" column.
 
-### Schema for "cust":
+Schemas for standard data match those for production data, although additional variables are included here (e.g., names and dates of births in the customer table).
+
+### Schema for "cust"
 
 The combination of raw_cust_id and cust_period should uniquely identify each row in the table (i.e., a composite key).
 
@@ -96,13 +98,13 @@ The combination of raw_cust_id and cust_period should uniquely identify each row
 | cust_period | [period] | | | char | for use when data updates are needed | composite key |
 | cust_id | unique customer ID | | | int | | |
 | sex | | 1, 2, NA | 1=Male, 2=Female | int | | |
-| dob | date of birth | yyy-mm-dd | | char | | |
+| dob | date of birth | yyyy-mm-dd | | char | | |
 | last | last name (trimmed & lowercase) | | | char | for cust_id validation | |
 | first | first name (trimmed & lowercase) | | | char | for cust_id validation | |
 | state | state residency (if available) | 2-character abbreviations for US/Canada | | char | | |
 | cust_res | customer residency | 1, 0, NA | 1=Res, 0=Nonres | int | | |
 
-### Schema for "sale":
+### Schema for "sale"
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
