@@ -5,7 +5,11 @@ This document outlines the workflow for processing data for dashboards. It is an
 
 0. [Initialize New State](#initialize-new-state)
 1. [Load Raw date into SQLite](#load-raw-data-into-sqlite)
-2. etc.
+2. [Standardize Data](#standardize-data)
+3. [Prep License Type Categories](#prep-license-type-categories)
+4. [Initial Validation](#initial-validation)
+5. [Finalize Production Data](#finalize-production-data)
+6. [Final Validation](#final-validation)
 
 ## Data Server
 
