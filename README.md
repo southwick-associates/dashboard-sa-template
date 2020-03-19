@@ -18,7 +18,7 @@ Using the Southwick Data Server, open an R console (e.g., using RStudio) and pop
 ```r
 install.packages("remotes")
 remotes::install_github("southwick-associates/salicprep")
-salicprep::new_state("state-abbreviation") # function to be written
+salicprep::new_state("state-abbreviation", "time-period") # function to be written
 
 # go to the new directory and build the project package library
 renv::restore()

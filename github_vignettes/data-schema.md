@@ -7,8 +7,8 @@ This document details the rules for storing data in a standardized format using 
 
 Each data pull from a state agency is to be processed through three steps:
 
-- [Raw](#raw-data): Data from the state is saved largely as-is into a "raw" database: `./Data-sensitive/[state]/raw-[period].sqlite3`
-- [Standard](#standard-data): An intermediate "standard" database is built to facilitate subsequent validation and deduplication (if needed): `./Data-sensitive/[state]/standard.sqlite3`
+- [Raw](#raw-data): Data from the state is saved largely as-is into a database: `./Data-sensitive/[state]/raw-[period].sqlite3`
+- [Standard](#standard-data): An intermediate database is built to facilitate subsequent validation and deduplication (if needed): `./Data-sensitive/[state]/standard.sqlite3`
 - [Production](#production-data): A final database is built that contains only those fields necessary for dashboard production:  `./Data-production/[state]/license.sqlite3`
 
 ## Production Data
