@@ -7,7 +7,7 @@ This document outlines Southwick data needs for the National/Regional dashboard.
 
 ## Data Format
 
-The raw data should preferably be separated into 3 related tables in delimited plain text files (alternative data structures are okay, but a related format is preferred because it reduces data duplication and total file size):
+The raw data are typically separated into 3 related tables in delimited plain text files (alternative data structures are okay, but a related format is preferred because it reduces data duplication and total file size):
 
 1.	License Sales (i.e., transactions): One row per license purchase
 2.	Customers: One row per customer
@@ -15,7 +15,7 @@ The raw data should preferably be separated into 3 related tables in delimited p
 
 ## Data Fields
 
-Each data table should contain data fields (columns) sufficient to identify the characteristics of interest. The "primary key" refers to a column that uniquely identifies rows in a table, whereas "foreign key" refers to a column that acts as a relational join to another table.
+Each data table should contain data fields (columns) sufficient to identify the characteristics of interest. The "primary key" refers to a column that uniquely identifies rows in a table, whereas "foreign key" refers to a column that provides a relational join to another table.
 
 ### Customers
 

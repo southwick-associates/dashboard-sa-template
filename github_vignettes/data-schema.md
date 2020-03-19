@@ -1,7 +1,7 @@
 
 # Database Schemas
 
-This document details the rules for storing data in a standardized format using [SQLite](https://db.rstudio.com/databases/sqlite/) databases. The file paths below refer to locations on the Data Server under "E:/SA/". Occurences of "[state]" refer to 2-letter abbreviations and "[period]" refer to the most recent time period in year-quarter covered for a data pull (e.g., 2019-q2, 2019-q4, etc.).
+This document details the rules for storing data in a standardized format using [SQLite](https://db.rstudio.com/databases/sqlite/) databases. The file paths below refer to locations on the Data Server under `E:/SA/`. Occurences of `[state]` refer to 2-letter abbreviations and `[period]` refer to the most recent time period in year-quarter covered for a data pull (e.g., "2019-q2", "2019-q4", etc.).
 
 ## Overview
 
@@ -21,7 +21,7 @@ The endpoint of the data processing is a production database of 3 tables with st
 
 ### Sample Data
 
-You can view example production data using Southwick's `salic` R package
+You can view example production data using Southwick's `salic` R package:
 
 ```r
 install.packages("remotes")
@@ -33,17 +33,17 @@ More in-depth background about the data structure is included in the [salic vign
 
 ### Schema for "lic":
 
-The lic table corresponds to unique license types. The lic_id field should uniquely identify each row in the table (i.e., a primary key)
+The lic table corresponds to unique license types. The lic_id field should uniquely identify each row in the table (i.e., it's a primary key).
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| lic_id | unique license ID | | | int | | primary key |
+| lic_id | unique license ID | | | int (usually) | | primary key |
 | description | generic description for each lic_id | | | char | provided by state | |
 | type | overall license type | fish, hunt, combo | | char | created by SA | |
-| duration | how many years the license/permit lasts | 1, 2, ..., 99  1=1yr/short-term, 2=2yr, ..., 99=lifetime| | int | necessary where multi-year/lifetime licenses are present | |
+| duration | how many years the license/permit lasts | 1, 2, ..., 99 | 1=1yr/short-term, 2=2yr, ..., 99=lifetime| int | necessary where multi-year/lifetime licenses are present | |
 | lic_res | in-state residency for residency-specific licenses | 1, 0, NA | 1=Res, 2=Nonres | int | | |
-| raw_lic_id | ID for linking to raw data | | int | | | |
-| lic_period | [period] | | | char | for use when data updates are needed | |
+| raw_lic_id | ID for linking to raw data | | | int | row number from raw data | |
+| lic_period | [period] | | | char | time period of data pull | |
 
 ### Schema for "cust":
 
@@ -51,19 +51,28 @@ The cust table corresponds to unique customers.
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| raw_cust_id | ID for linking to raw data | | | int | | composite key |
-| cust_period | [period] | | | char | for use when data updates are needed | composite key |
-| | | | | | | |
+| cust_id | unique customer ID | | | int (usually) | | primary key |
+| sex | | 1, 2, NA | 1=Male, 2=Female | int | | |
+| birth_year | | yyyy | | int | | |
+| cust_res | customer state residency | 1, 0, NA | 1=Res, 0=Nonres | int | | |
+| raw_cust_id | ID for linking to raw data | | | int | | |
+| cust_period | [period] | | | char | for use when data updates are needed | |
 
 ### Schema for "sale":
 
-The sale table corresponds to unique transactions (i.e., license type purchases by customers).
+The sale table corresponds to transactions (i.e., purchases of specific license types by customers).
 
 | Column Name | Description | Allowed Values | Categorical Codes | Column type | Notes | Key Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| raw_sale_id | ID for linking to raw data | | | int | | composite key |
-| sale_period | [period] | | | char | for use when data updates are needed | composite key |
-| | | | | | | |
+| cust_id | | | int | | | foreign key |
+| lic_id | | | | int | | foreign key |
+| year | calendar year of sale | yyyy | | int | | |
+| month | calendar month of transaction | 1, 2, ..., 12 | 1=Jan, 2=Feb, ..., 12=Dec | int | | |
+| dot | transaction (purchase) date | yyyy-mm-dd | | | char | | 
+| start_date | when license becomes effective | yyyy-mm-dd | | | char | | 
+| end_date | when license expires | yyyy-mm-dd | | | char | | 
+| raw_sale_id | ID for linking to raw data | | | int | | |
+| sale_period | [period] | | | char | for use when data updates are needed | |
 
 ## Raw Data
 
@@ -107,5 +116,3 @@ The combination of raw_cust_id and cust_period should uniquely identify each row
 | dot | transaction (purchase) date | yyyy-mm-dd | | | char | | 
 | start_date | when license becomes effective | yyyy-mm-dd | | | char | | 
 | end_date | when license expires | yyyy-mm-dd | | | char | | 
-
-## Production Data
