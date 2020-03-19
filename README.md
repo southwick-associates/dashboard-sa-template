@@ -7,7 +7,7 @@ A set of template files for national/regional dashboard processing with accompan
 - [Dashboard Analyst Introduction](github_vignettes/dashboard-overview.md)
 - Workflow Overview
     + [Data required from states](github_vignettes/data-required.md)
-    + [Data Schemas (standard, production)](github_vignettes/data-schema.md)
+    + [Database Schemas](github_vignettes/data-schema.md)
     + Data Validation
     
 ## Usage

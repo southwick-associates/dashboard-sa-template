@@ -15,16 +15,7 @@ The raw data should preferably be separated into 3 related tables in delimited p
 
 ## Data Fields
 
-Each data table should contain data fields (columns) sufficient to identify the characteristics of interest.
-
-### License Sales
-
-- Customer ID (foreign key)
-- License ID (foreign key)
-- Purchase date
-- Effective date (i.e., when license becomes valid)
-- Expiration date
-- [Any other sales fields deemed necessary by the state agency]
+Each data table should contain data fields (columns) sufficient to identify the characteristics of interest. The "primary key" refers to a column that uniquely identifies rows in a table, whereas "foreign key" refers to a column that acts as a relational join to another table.
 
 ### Customers
 
@@ -43,3 +34,12 @@ Each data table should contain data fields (columns) sufficient to identify the 
 - License Type Residency (in-state vs. out-of-state)
 - License Type Category (if available): a field to identify whether a license provides a hunting privilege, a fishing privilege, or both
 - [Any other license type fields deemed necessary by the state agency]
+
+### License Sales
+
+- Customer ID (foreign key)
+- License ID (foreign key)
+- Purchase date
+- Effective date (i.e., when license becomes valid)
+- Expiration date
+- [Any other sales fields deemed necessary by the state agency]
