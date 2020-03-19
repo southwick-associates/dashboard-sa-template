@@ -1,8 +1,5 @@
 Dashboard Analyst Introduction
 ================
-March 18, 2020
-
-## Overview
 
 Data dashboards provide a visual representation of hunting and fishing
 license sales; summarizing both recent and long-term trends.

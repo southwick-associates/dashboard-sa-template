@@ -1,6 +1,5 @@
 ---
 title: "Dashboard Analyst Introduction"
-date: '`r strftime(Sys.time(), format = "%B %d, %Y")`'
 output: github_document
 ---
 
@@ -8,8 +7,6 @@ output: github_document
 library(tidyverse)
 library(DBI)
 ```
-
-## Overview
 
 Data dashboards provide a visual representation of hunting and fishing license sales; summarizing both recent and long-term trends. Participation metrics are presented for anglers and hunters as a whole and also broken out over demographic groups, including residency, gender, and age. 
 
