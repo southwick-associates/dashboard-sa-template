@@ -12,47 +12,16 @@ output:
 knitr::opts_chunk$set(comment = NA)
 library(tidyverse)
 library(DBI)
-library(readxl)
 library(salic)
+source("../params.R")
 ```
 
 ### Load Data 
 
 ```{r}
-source("../params.R")
 con <- dbConnect(RSQLite::SQLite(), db_standard)
 sale <- tbl(con, "sale") %>% select(lic_id, cust_id, year) %>% collect()
 dbDisconnect(con)
+
 lic <- read_excel("../data/lic.xlsx")
 ```
-
-## Overall
-
-There really isn't much to see with just one year of data
-
-```{r}
-# summary_initial doesn't work with only one year, so not much point in this
-salic::summary_sale(sale)
-```
-
-## License Types
-
-This relies on a `type` variable being added to the lic table.
-
-```{r}
-sale <- left_join(sale, lic, by = "lic_id")
-count(sale, year, type) %>%
-    ggplot(aes(type, n)) + 
-    geom_col() +
-    facet_wrap(~ year)
-```
-
-### Hunt
-
-```{r}
-# overall
-
-# by license type
-```
-
-### Fish

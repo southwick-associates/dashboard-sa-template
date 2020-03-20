@@ -14,21 +14,20 @@ library(tidyverse)
 library(DBI)
 library(readxl)
 library(salic)
+source("../params.R")
 ```
 
 ### Load Data 
 
 ```{r}
-source("../params.R")
 con <- dbConnect(RSQLite::SQLite(), db_standard)
 sale <- tbl(con, "sale") %>% select(lic_id, cust_id, year) %>% collect()
 dbDisconnect(con)
+
 lic <- read_excel("../data/lic.xlsx")
 ```
 
 ## Overall
-
-There really isn't much to see with just one year of data
 
 ```{r}
 # summary_initial doesn't work with only one year, so not much point in this
@@ -56,3 +55,7 @@ count(sale, year, type) %>%
 ```
 
 ### Fish
+
+```{r}
+
+```
