@@ -1,1 +1,0 @@
-# prepare license type categories

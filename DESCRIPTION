@@ -1,0 +1,16 @@
+Package: sadashtemplate
+Type: Package
+Title: Create template files for national/regional dashboard processing
+Version: 0.1
+Authors@R: c(
+    person("Dan", "Kary", , "Rsoftware@SouthwickAssociates.com", role = c("aut", "cre")),
+    person("Southwick Associates", role = c("cph", "fnd"))
+    )
+Description: Provides templates for Southwick state-specific dashboard workflow.
+License: Intended for SA internal use only
+URL: https://github.com/southwick-associates/dashboard-sa-template
+Encoding: UTF-8
+LazyData: FALSE
+Depends:
+    R (>= 3.6)
+RoxygenNote: 7.1.0
