@@ -16,7 +16,7 @@ Note: Not yet ready to install. From the R console:
 
 ```r
 install.packages("remotes")
-remotes::install_github("southwick-associates/dashboard-sa-template")
+remotes::install_github("southwick-associates/sadashtemplate")
 ```
     
 ## Usage
@@ -27,7 +27,7 @@ Using the Southwick Data Server, open an R console (e.g., using RStudio) and pop
 sadashtemplate::new_dashboard("state-abbreviation", "time-period")
 ```
 
-Open the new directory just created (e.g., using Rstudio) and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
+Open the Rstudio project just created and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
 
 ```r
 renv::restore()
