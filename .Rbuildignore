@@ -1,12 +1,10 @@
-^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.Rprofile$
 ^README\.md$
-^TODO\.md$
 ^\.gitignore$
-^\.renvignore$
 ^renv\.lock$
-^inst/template/renv/\.gitignore$
-^inst/template/renv/library$
 ^renv$
+^inst/template/renv/library$
+^inst/template/renv/staging$
 ^github_vignettes$
+^lictemplate\.Rproj$

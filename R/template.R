@@ -14,10 +14,9 @@
 #' @examples
 #' # new_dashboard("YY", "2018-q4")
 new_dashboard <- function(state, time_period, sa_path = "E:/SA/") {
+    # error handling to avoid running if relevant folders already exist
     analysis_path <- file.path(sa_path, "Projects", "Data-Dashboards", state, time_period)
     dir.create(analysis_path, recursive = TRUE)
-    
-    # error handling to avoid running if relevant folders already exist
     
     # create analysis folders/files
     template_paths <- list.files(
