@@ -4,7 +4,7 @@
 \alias{new_dashboard}
 \title{Setup a new state dashboard with default directories and template scripts}
 \usage{
-new_dashboard(state, time_period, sa_path = "E:/SA")
+new_dashboard(state, time_period, sa_path = "E:/SA/")
 }
 \arguments{
 \item{state}{character: Two letter state designation}

@@ -13,10 +13,20 @@
 #' @export
 #' @examples
 #' # new_dashboard("YY", "2018-q4")
-new_dashboard <- function(state, time_period, sa_path = "E:/SA") {
+new_dashboard <- function(state, time_period, sa_path = "E:/SA/") {
+    analysis_path <- file.path(sa_path, "Projects", "Data-Dashboards", state, time_period)
+    dir.create(analysis_path, recursive = TRUE)
+    
     # error handling to avoid running if relevant folders already exist
     
     # create analysis folders/files
+    template_paths <- list.files(
+        system.file("template", package = "lictemplate"), full.names = TRUE
+    )
+    for (i in template_paths) {
+        file.copy(i, analysis_path, recursive = TRUE, overwrite = FALSE)
+    }
+    
     
     # create data folders/files
 }

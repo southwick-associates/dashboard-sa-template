@@ -1,4 +1,4 @@
-Package: sadashtemplate
+Package: lictemplate
 Type: Package
 Title: Create template files for national/regional dashboard processing
 Version: 0.1
@@ -8,7 +8,7 @@ Authors@R: c(
     )
 Description: Provides templates for Southwick state-specific dashboard workflow.
 License: Intended for SA internal use only
-URL: https://github.com/southwick-associates/sadashtemplate
+URL: https://github.com/southwick-associates/lictemplate
 Encoding: UTF-8
 LazyData: FALSE
 Depends:
