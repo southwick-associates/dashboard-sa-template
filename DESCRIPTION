@@ -1,12 +1,12 @@
 Package: lictemplate
 Type: Package
-Title: Create template files for national/regional dashboard processing
-Version: 0.1
+Title: Create template files for license data processing
+Version: 0.2
 Authors@R: c(
     person("Dan", "Kary", , "Rsoftware@SouthwickAssociates.com", role = c("aut", "cre")),
     person("Southwick Associates", role = c("cph", "fnd"))
     )
-Description: Provides templates for Southwick state-specific dashboard workflow.
+Description: Provides templates for Southwick state-specific license processing workflow.
 License: Intended for SA internal use only
 URL: https://github.com/southwick-associates/lictemplate
 Encoding: UTF-8
