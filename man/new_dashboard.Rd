@@ -4,21 +4,33 @@
 \alias{new_dashboard}
 \title{Setup a new state dashboard with default directories and template scripts}
 \usage{
-new_dashboard(state, time_period, sa_path = "E:/SA/")
+new_dashboard(
+  state,
+  period,
+  analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
+  sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state,
+    paste0("raw-", period)),
+  production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state)
+)
 }
 \arguments{
 \item{state}{character: Two letter state designation}
 
-\item{time_period}{character: Time period for the first dashboard 
+\item{period}{character: Time period for the first dashboard 
 (e.g., "2019-q4", "2020-q4", etc.)}
 
-\item{sa_path}{character: File path to the Southwick main folder 
-(for analysis and data, etc.)}
+\item{analysis_path}{character: File path for the analysis}
+
+\item{sensitive_path}{character: File path for the sensitive data. If NULL,
+no folders will be created.}
+
+\item{production_path}{character: File path for the production data. If NULL, 
+no folders will be created.}
 }
 \description{
 This is intended to be run before data processing for a new state begins.
 }
 \examples{
-# new_dashboard("YY", "2018-q4")
+# new_dashboard("YY", "2019-q4")
 }
 \concept{functions for making template files/folders}
