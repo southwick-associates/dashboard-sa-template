@@ -8,3 +8,4 @@
 ^inst/template/renv/staging$
 ^github_vignettes$
 ^lictemplate\.Rproj$
+^img$
