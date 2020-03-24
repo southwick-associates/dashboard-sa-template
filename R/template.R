@@ -1,11 +1,11 @@
 # functions for making template files/folders
 
-#' Setup a new state dashboard with default directories and template scripts
+#' Setup a new state project with default directories and template scripts
 #' 
 #' This is intended to be run before data processing for a new state begins.
 #' 
 #' @param state character: Two letter state designation
-#' @param period character: Time period for the first dashboard 
+#' @param period character: Time period for the first project 
 #' (e.g., "2019-q4", "2020-q4", etc.)
 #' @param analysis_path character: File path for the analysis
 #' @param sensitive_path character: File path for the sensitive data. If NULL,
@@ -15,8 +15,8 @@
 #' @family functions for making template files/folders
 #' @export
 #' @examples
-#' # new_dashboard("YY", "2019-q4")
-new_dashboard <- function(
+#' # new_project("YY", "2019-q4")
+new_project <- function(
     state, period, 
     analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
     sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
@@ -63,5 +63,5 @@ new_dashboard <- function(
     dir_create(production_path)
     
     # print message
-    message("A new dashboard project has been initialized:\n  ", analysis_path)
+    message("A new license data project has been initialized:\n  ", analysis_path)
 }

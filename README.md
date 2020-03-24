@@ -17,12 +17,12 @@ remotes::install_github("southwick-associates/lictemplate")
 
 ```r
 # example for South Dakota 2019 end-of-year dashboard
-lictemplate::new_dashboard("SD", "2019-q4")
-## A new dashboard project has been initialized:
+lictemplate::new_project("SD", "2019-q4")
+## A new license data project has been initialized:
 ##  E:/SA/Projects/Data-Dashboards/SD/2019-q4
 ```
 
-These folders/files are created after running `new_dashboard()`:
+These folders/files are created after running `new_project()`:
 
 ![](img/new-dashboard.png)
 
