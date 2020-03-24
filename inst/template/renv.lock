@@ -268,6 +268,13 @@
       "Repository": "CRAN",
       "Hash": "af1f47b63d1aa2206c1fe4d3db1d9366"
     },
+    "gridExtra": {
+      "Package": "gridExtra",
+      "Version": "2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7d7f283939f563670a697165b2cf5560"
+    },
     "gtable": {
       "Package": "gtable",
       "Version": "0.3.0",
@@ -421,6 +428,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "49f7258fd86ebeaea1df24d9ded00478"
+    },
+    "openxlsx": {
+      "Package": "openxlsx",
+      "Version": "4.1.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "664378f856aceb385eabbce0f202abd8"
     },
     "pillar": {
       "Package": "pillar",
@@ -595,6 +609,18 @@
       "RemoteSha": "33bdcb75f8947f3d5d32fdb42613c62a48e672c6",
       "Hash": "ca66fb369b12509ca98d0b01727e87fe"
     },
+    "salicprep": {
+      "Package": "salicprep",
+      "Version": "0.2.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "southwick-associates",
+      "RemoteRepo": "salicprep",
+      "RemoteRef": "master",
+      "RemoteSha": "d89b471f1c0286c70ad496e98f5777e0827de26f",
+      "Hash": "05bf17d63ac9899099d19d1618561267"
+    },
     "scales": {
       "Package": "scales",
       "Version": "1.1.0",
@@ -707,6 +733,18 @@
       "Repository": "CRAN",
       "Hash": "aa57ed55ff2df4bea697a07df528993d"
     },
+    "workflow": {
+      "Package": "workflow",
+      "Version": "1.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "workflow",
+      "RemoteUsername": "southwick-associates",
+      "RemoteRef": "master",
+      "RemoteSha": "508bb6142d03898a76fe1640b5e6b5051dd9fd8d",
+      "Hash": "d64cef38b18dd6f21d5441e68dcdc771"
+    },
     "xfun": {
       "Package": "xfun",
       "Version": "0.12",
@@ -727,6 +765,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "2826c5d9efb0a88f657c7a679c7106db"
+    },
+    "zip": {
+      "Package": "zip",
+      "Version": "2.0.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "caa73cdca1a87e5f2617915c8809f207"
     }
   }
 }
