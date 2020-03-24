@@ -22,6 +22,17 @@ new_project <- function(
     sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
     production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state)
 ) {
+    # error - don't run if the drive in specified paths don't exist
+    check_drive <- function(path) {
+        path <- gsub("\\\\", "/", path) # ensure directories are separated by "/"
+        drive = paste0(unlist(strsplit(path, "/"))[1], "/")
+        if (!dir.exists(drive)) {
+            stop("The ", drive, " drive from ", path, 
+                 " doesn't exist on your computer", call. = FALSE)
+        }
+    }
+    sapply(c(analysis_path, sensitive_path, production_path), check_drive)
+    
     # error - don't run if a directory with that time period already exists
     if (dir.exists(analysis_path)) {
         stop("That period already exists!: ", analysis_path, call. = FALSE)
@@ -47,7 +58,7 @@ new_project <- function(
     )
     
     # - replace parameter (state, period) values in params.R
-    f <- file.path(analysis_path, "params.R")
+    f <- file.path(analysis_path, "code/params.R")
     x <- readLines(f)
     x <- gsub("__state__", state, x)
     x <- gsub("__period__", period, x)

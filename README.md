@@ -22,7 +22,7 @@ lictemplate::new_project("SD", "2019-q4")
 ##  E:/SA/Projects/Data-Dashboards/SD/2019-q4
 ```
 
-These folders/files are created after running `new_project()`:
+Running `new_project()` creates data directories and a set of template files/folders for analysis, defaulting to Data Server file paths:
 
 ![](img/new-dashboard.png)
 

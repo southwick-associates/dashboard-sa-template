@@ -4,7 +4,7 @@ library(tidyverse)
 library(DBI)
 library(salic)
 
-source("params.R")
+source("code/params.R")
 files <- list.files(dir_raw)
 
 lic_file <- files[1] ## state-specific
