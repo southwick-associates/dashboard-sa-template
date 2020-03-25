@@ -1,73 +1,94 @@
 # standardize data
-## much of the code needed here is state-specific
+# - only select columns will be needed in the standardized data
+# - much of the code needed here is state-specific
 
 library(tidyverse)
 library(DBI)
 library(stringr)
 library(lubridate)
 library(salic)
+library(salicprep)
 
-source("params.R")
+source("code/params.R")
 
-# Load Raw Data -----------------------------------------------------------
-
-# only select columns will be needed in the standardized data
+# License -----------------------------------------------------------------
 
 con <- dbConnect(RSQLite::SQLite(), db_raw)
 
 lic <- tbl(con, "lic") %>% 
-    rename(lic_id = ProductId, revenue = Price) %>%
-    select(-ProductYear) %>%
+    select(raw_lic_id) %>%
     collect()
-
-cust <- tbl(con, "cust") %>% 
-    select(cust_id = CustomerId, name = FullName, dob = DateOfBirth, state = State, raw_cust_id) %>%
-    collect()
-
-sale <- tbl(con, "sale") %>% 
-    select(cust_id = CustomerId, lic_id = ProductId, year = LicenseYear, dot = CreateDate,
-           start_date = EffectiveDate, end_date = ExpirationDate, raw_sale_id) %>% 
-    collect()
-
-# License -----------------------------------------------------------------
 
 # save as csv for by-hand editing
-dir.create("data")
+dir.create("data", showWarnings = FALSE)
 write_csv(lic, "data/lic.csv")
 
 # Standardize Customers -----------------------------------------------------
 
+cust <- tbl(con, "cust") %>% 
+    select(raw_cust_id) %>%
+    collect()
+
+# check for inconsistency in customer ID
+count(cust, cust_id) %>% filter(n > 1)
+
 # first & last name
 cust <- cust %>%
-    separate(name, c("first", "n2", "n3", "n4"), sep = " ") %>%
-    mutate(last = case_when(
-        nchar(n2) >= 3 ~ n2,
-        nchar(n3) >= 3 ~ n3,
-        TRUE ~ n4
-    )) %>%
-    select(-n2, -n3, -n4) %>%
-    mutate_at(vars(first, last), function(x) str_to_lower(x) %>% str_trim())
-    
-# state
-data(state_abbreviations)
-cust <- recode_state(cust, state_abbreviations) %>%
-    select(cust_id, dob, last, first, state = state_new, raw_cust_id)
-count(cust, state) %>% arrange(desc(n))
+    mutate_at(vars(last, first), function(x) str_to_lower(x) %>% str_trim())
 
-# state residency
+# standardize state
+data(state_abbreviations, package = "salic")
+cust <- recode_state(cust, state_abbreviations)
+# - check
+cust %>%
+    filter(toupper(state) != state_new) %>% 
+    count(toupper(state), state_new)
+# - replace
+cust <- cust %>%
+    select(-state) %>%
+    rename(state = state_new)
+
+# identify state residency
 cust$cust_res <- ifelse(cust$state == state, 1L, 0L)
-cust$cust_period <- period
+count(cust, cust_res)
+
+# date of birth
+cust <- mutate(cust, dob = str_sub(dob, end = 10) %>% mdy())
+
+# gender
 
 # Standardize Sales -------------------------------------------------------
 
-# dates
-sale <- sale %>%
-    mutate_at(vars(dot, start_date, end_date), function(x) str_sub(x, end = 10)) %>%
-    mutate(sale_period = period)
+sale <- tbl(con, "sale") %>% 
+    select(raw_sale_id) %>% 
+    collect()
+dbDisconnect(con)
+
+# convert date variables to date format
+sale <- sale %>% mutate_at(
+    vars(dot, start_date, end_date),  
+    function(x) str_sub(x, end = 10) %>% mdy()
+)
+
+# Final Formatting ---------------------------------------------------------
+
+# convert dates to character (for sqlite)
+# this can take a couple minutes to run for large datasets
+sale <- date_to_char(sale)
+cust <- date_to_char(cust)
+
+# add period for data provenance
+cust$cust_period <- period
+sale$sale_period <- period
+
+# check the data standardization rules
+data_check_standard(cust, lic, sale)
+
+glimpse(lic)
+glimpse(cust)
+glimpse(sale)
 
 # Write to Sqlite ---------------------------------------------------------
-
-salic::data_check(cust, lic, sale) # TODO: more tailored data_check function
 
 con <- dbConnect(RSQLite::SQLite(), db_standard)
 dbWriteTable(con, "cust", cust, overwrite = TRUE)
