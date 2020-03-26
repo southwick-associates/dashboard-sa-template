@@ -1,4 +1,5 @@
 # standardize data
+# https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/data-schema.md
 # - only select columns will be needed in the standardized data
 # - much of the code needed here is state-specific
 
