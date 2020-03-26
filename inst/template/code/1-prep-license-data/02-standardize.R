@@ -44,18 +44,20 @@ cust %>%
     filter(toupper(state) != state_new) %>% 
     count(toupper(state), state_new)
 # - replace
-cust <- cust %>%
-    select(-state) %>%
-    rename(state = state_new)
+cust <- select(cust, -state) %>% rename(state = state_new)
 
 # identify state residency
 cust$cust_res <- ifelse(cust$state == state, 1L, 0L)
 count(cust, cust_res)
 
-# date of birth
-cust <- mutate(cust, dob = str_sub(dob, end = 10) %>% mdy())
+# convert date of birth to date format
+cust <- recode_date(cust, "dob", function(x) str_sub(x, end = 10) %>% ymd())
 
 # gender
+count(cust, sex)
+cust$sex_new <- ifelse(cust$sex == "M", 1L, 2L)
+count(cust, sex_new, sex)
+cust <- select(cust, -sex) %>% rename(sex = sex_new)
 
 # Standardize Sales -------------------------------------------------------
 
@@ -64,11 +66,10 @@ sale <- tbl(con, "sale") %>%
     collect()
 dbDisconnect(con)
 
-# convert date variables to date format
-sale <- sale %>% mutate_at(
-    vars(dot, start_date, end_date),  
-    function(x) str_sub(x, end = 10) %>% mdy()
-)
+# dates
+sale <- recode_date(sale, "dot", function(x) str_sub(x, end = 10) %>% ymd())
+sale <- recode_date(sale, "start_date", function(x) str_sub(x, end = 10) %>% ymd())
+sale <- recode_date(sale, "end_date", function(x) str_sub(x, end = 10) %>% ymd())
 
 # Final Formatting ---------------------------------------------------------
 

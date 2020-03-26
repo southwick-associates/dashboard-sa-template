@@ -1,2 +1,7 @@
-# get license types identified
-# - there may be no code needed for this task (i.e., just manual work in a spreadsheet)
+# prepare lic table for production
+# - store in "data/lic-clean.csv"
+# - likely will also require manual work in a spreadsheet
+
+library(tidyverse)
+
+lic <- read_csv("data/lic.csv")
