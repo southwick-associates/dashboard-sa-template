@@ -1,13 +1,15 @@
 # load raw data into sqlite
 
+## State-specific Notes
+# - 
+
 library(tidyverse)
 library(DBI)
 library(salicprep)
-
 source("code/params.R")
-files <- list.files(dir_raw, full.names = TRUE)
 
 ## state-specific file identification
+files <- list.files(dir_raw, full.names = TRUE)
 lic_file = files[1]
 cust_file = files[2]
 sale_file = files[3]

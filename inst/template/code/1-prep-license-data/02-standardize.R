@@ -2,13 +2,15 @@
 # - only select columns will be needed in the standardized data
 # - much of the code needed here is state-specific
 
+## State-specific Notes
+# - 
+
 library(tidyverse)
 library(DBI)
 library(stringr)
 library(lubridate)
 library(salic)
 library(salicprep)
-
 source("code/params.R")
 
 # License -----------------------------------------------------------------

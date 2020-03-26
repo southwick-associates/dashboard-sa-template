@@ -57,12 +57,16 @@ new_project <- function(
         file.path(analysis_path, paste0(state, "-", period, ".Rproj"))
     )
     
-    # - replace parameter (state, period) values in params.R
-    f <- file.path(analysis_path, "code/params.R")
-    x <- readLines(f)
-    x <- gsub("__state__", state, x)
-    x <- gsub("__period__", period, x)
-    cat(x, file = f, sep = "\n")
+    # - replace parameter (state, period) values in select files
+    replace_params <- function(file) {
+        f <- file.path(analysis_path, file)
+        x <- readLines(f)
+        x <- gsub("__state__", state, x)
+        x <- gsub("__period__", period, x)
+        cat(x, file = f, sep = "\n")
+    }
+    replace_params("code/params.R")
+    replace_params("README.md")
     
     # create data folders (sensitive, production)
     dir_create <- function(path) {
