@@ -36,7 +36,7 @@ dbDisconnect(con)
 
 ## Hunters
 
-```{r}
+```{r, warning=FALSE}
 hunt <- lic %>%
     filter(type %in% c("hunt", "combo")) %>%
     left_join(sale, by = "lic_id") %>%
@@ -50,7 +50,7 @@ plot_demo(hunt, c("sex", "agecat", "res"), trend = TRUE)
 
 ## Anglers
 
-```{r}
+```{r, warning=FALSE}
 fish <- lic %>%
     filter(type %in% c("fish", "combo")) %>%
     left_join(sale, by = "lic_id") %>%

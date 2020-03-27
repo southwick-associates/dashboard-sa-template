@@ -170,6 +170,12 @@
       "Repository": "CRAN",
       "Hash": "2b7d10581cc730804e9ed178c8374bd6"
     },
+    "dashtemplate": {
+      "Package": "dashtemplate",
+      "Version": "0.1",
+      "Source": "Local",
+      "Hash": "9138b37eb6071ec8344f7f36ff49f842"
+    },
     "data.table": {
       "Package": "data.table",
       "Version": "1.12.8",
@@ -232,6 +238,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "dad6793a5a1f73c8e91f1a1e3e834b05"
+    },
+    "fastmap": {
+      "Package": "fastmap",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "83ab58a0518afe3d17e41da01af13b60"
     },
     "forcats": {
       "Package": "forcats",
@@ -310,6 +323,13 @@
       "Repository": "CRAN",
       "Hash": "2d7691222f82f41e93f6d30f169bd5e1"
     },
+    "httpuv": {
+      "Package": "httpuv",
+      "Version": "1.5.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f793dad2c9ae14fbb1d22f16f23f8326"
+    },
     "httr": {
       "Package": "httr",
       "Version": "1.4.1",
@@ -345,12 +365,19 @@
       "Repository": "CRAN",
       "Hash": "73832978c1de350df58108c745ed0e3e"
     },
-    "lattice": {
-      "Package": "lattice",
-      "Version": "0.20-40",
+    "later": {
+      "Package": "later",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "61339152c288b871facca5f68f401f89"
+      "Hash": "6d927978fc658d24175ce37db635f9e5"
+    },
+    "lattice": {
+      "Package": "lattice",
+      "Version": "0.20-38",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "848f8c593fd1050371042d18d152e3d7"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -417,10 +444,10 @@
     },
     "nlme": {
       "Package": "nlme",
-      "Version": "3.1-145",
+      "Version": "3.1-144",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0ed9365684dc39cdd0bb5bd2f316dc67"
+      "Hash": "e80d41932d3cc235ccbbbb9732ae162e"
     },
     "openssl": {
       "Package": "openssl",
@@ -506,6 +533,13 @@
       "Repository": "CRAN",
       "Hash": "14dc9f7a3c91ebb14ec5bb9208a07061"
     },
+    "promises": {
+      "Package": "promises",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "efbbe62da4709f7040a380c702bc7103"
+    },
     "ps": {
       "Package": "ps",
       "Version": "1.3.2",
@@ -543,10 +577,15 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.9.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "c1a367437d8a8a44bec4b9d4974cb20c"
+      "Version": "0.9.3-60",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "renv",
+      "RemoteUsername": "rstudio",
+      "RemoteRef": "master",
+      "RemoteSha": "9518d011c305d6e36ee5fcb25d0878e43cfb829b",
+      "Hash": "b20f80445465424d447548b1245b5afb"
     },
     "reprex": {
       "Package": "reprex",
@@ -611,15 +650,15 @@
     },
     "salicprep": {
       "Package": "salicprep",
-      "Version": "0.2.0",
+      "Version": "0.3.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "southwick-associates",
       "RemoteRepo": "salicprep",
       "RemoteRef": "master",
-      "RemoteSha": "d89b471f1c0286c70ad496e98f5777e0827de26f",
-      "Hash": "05bf17d63ac9899099d19d1618561267"
+      "RemoteSha": "2c4944561b7be685f6c9368db661a142b2bacb4b",
+      "Hash": "a782fe91b94623f1c08cb666c6c21731"
     },
     "scales": {
       "Package": "scales",
@@ -634,6 +673,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "3838071b66e0c566d55cc26bd6e27bf4"
+    },
+    "shiny": {
+      "Package": "shiny",
+      "Version": "1.4.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a56d058adfc9df30bdd45dbb01cec39f"
+    },
+    "sourcetools": {
+      "Package": "sourcetools",
+      "Version": "0.1.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "947e4e02a79effa5d512473e10f41797"
     },
     "stringi": {
       "Package": "stringi",
@@ -735,15 +788,15 @@
     },
     "workflow": {
       "Package": "workflow",
-      "Version": "1.1",
+      "Version": "1.1.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "workflow",
       "RemoteUsername": "southwick-associates",
+      "RemoteRepo": "workflow",
       "RemoteRef": "master",
-      "RemoteSha": "508bb6142d03898a76fe1640b5e6b5051dd9fd8d",
-      "Hash": "d64cef38b18dd6f21d5441e68dcdc771"
+      "RemoteSha": "b3b7523a034353f208c6edd6aea2018cb96d3f01",
+      "Hash": "31cc4f6fd6378a462186dde8458578f1"
     },
     "xfun": {
       "Package": "xfun",
@@ -758,6 +811,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "13efdfe4c591af40c1c29dc6408281ed"
+    },
+    "xtable": {
+      "Package": "xtable",
+      "Version": "1.8-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b8acdf8af494d9ec19ccb2481a9b11c2"
     },
     "yaml": {
       "Package": "yaml",
