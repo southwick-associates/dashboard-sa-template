@@ -16,8 +16,7 @@ db_license <- file.path(dir_production, state, "license.sqlite3")
 db_history <- file.path(dir_production, state, "history.sqlite3")
 db_census <- file.path(dir_production, "_Shared", "census.sqlite3")
 
-firstyr <- 2010 # first year to include in dashboard results
-lastyr <- as.integer(substr(period, 1, 4))
-quarter <- as.integer(substr(period, 7, 7))
+firstyr <- 2010                             # first year of data of interest
+lastyr <- as.integer(substr(period, 1, 4))  # last year of data of interest
 yrs <- firstyr:lastyr
-dashboard_yrs <- lastyr # focus years to be available in dashboard dropdown menu
+quarter <- as.integer(substr(period, 7, 7)) # current quarter

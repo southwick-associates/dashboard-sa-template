@@ -16,7 +16,7 @@ source("code/params.R")
 con <- dbConnect(RSQLite::SQLite(), db_standard)
 cust <- tbl(con, "cust") %>% collect()
 sale <- tbl(con, "sale") %>% 
-    select(cust_id, lic_id, year, dot, raw_sale_id) %>%
+    select(cust_id, lic_id, year, dot, raw_sale_id, sale_period) %>%
     collect()
 dbDisconnect(con)
 
@@ -70,22 +70,50 @@ sale <- res_id_cust(sale, cust)
 
 # Recoding Sale Vars ------------------------------------------------------
 
+# check transaction dates
+sale <- mutate(sale, dot = ymd(dot))
+summary(year(sale$dot))
+count(sale, year = year(dot)) %>% ggplot(aes(year, n)) + geom_col()
+
+# set unreasonable transaction date values to missing
+# - perform this operation with caution
+sale <- sale %>%
+    mutate(dot_new = case_when(year(dot) %in% yrs ~ dot))
+# - check missings
+sale %>%
+    filter(is.na(dot_new)) %>% count(year(dot)) %>% 
+    arrange(desc(n))
+# - reset dot
+sale <- sale %>%
+    select(-dot) %>%
+    rename(dot = dot_new)
+
+# set year to ensure calendar year (and month)
 sale <- sale %>% mutate(
-    dot = ymd(dot),
-    month = month(dot) %>% as.integer()
+    month = month(dot) %>% as.integer(),
+    year = year(dot) %>% as.integer()
 )
 
-sale <- select(sale, cust_id, lic_id, year, month, res, raw_sale_id)
+# drop records without reliable dates
+# - again with caution, don't want to drop non-negligible amounts of data we need
+sale <- filter(sale, !is.na(dot))
+sale <- select(sale, cust_id, lic_id, year, month, dot, res, raw_sale_id, sale_period)
 
 # Final Prepartion --------------------------------------------------------
 
 # only lic$type hunt, fish, combo are needed
-filter(lic, !type %in% c("fish", "hunt", "combo")) %>%
+lic %>%
+    filter(!type %in% c("fish", "hunt", "combo")) %>%
     knitr::kable(caption = "License sales to be excluded")
+
 lic <- filter(lic, type %in% c("fish", "hunt", "combo"))
 sale <- semi_join(sale, lic, by = "lic_id")
 cust <- semi_join(cust, sale, by = "cust_id")
 
+# ensure dates are stored as character (for SQLite)
+sale <- date_to_char(sale)
+
+# final check
 data_check(cust, lic, sale)
 
 glimpse(cust)
@@ -99,4 +127,3 @@ dbWriteTable(con, "cust", cust, overwrite = TRUE)
 dbWriteTable(con, "lic", lic, overwrite = TRUE)
 dbWriteTable(con, "sale", sale, overwrite = TRUE)
 dbDisconnect(con)
-

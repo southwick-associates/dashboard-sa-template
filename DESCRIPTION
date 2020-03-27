@@ -1,7 +1,7 @@
 Package: lictemplate
 Type: Package
 Title: Create template files for license data processing
-Version: 0.2
+Version: 0.3.0
 Authors@R: c(
     person("Dan", "Kary", , "Rsoftware@SouthwickAssociates.com", role = c("aut", "cre")),
     person("Southwick Associates", role = c("cph", "fnd"))
