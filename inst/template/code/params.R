@@ -9,7 +9,7 @@ dir_sensitive <- "E:/SA/Data-sensitive/Data-Dashboards"
 dir_raw <- file.path(dir_sensitive, state, paste0("raw-", period))
 
 db_raw <- file.path(dir_sensitive, state, paste0("raw-", period, ".sqlite3"))
-db_standard <- file.path(dir_sensitive, state, paste0("standard-", period, ".sqlite3"))
+db_standard <- file.path(dir_sensitive, state, "standard.sqlite3")
 db_production <- file.path(dir_production, state, "license.sqlite3")
 
 # for building dashboard summary data
