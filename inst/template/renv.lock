@@ -657,8 +657,8 @@
       "RemoteUsername": "southwick-associates",
       "RemoteRepo": "salicprep",
       "RemoteRef": "master",
-      "RemoteSha": "2c4944561b7be685f6c9368db661a142b2bacb4b",
-      "Hash": "a782fe91b94623f1c08cb666c6c21731"
+      "RemoteSha": "0394b0f6bb38a594ba19033d567cc2582428e508",
+      "Hash": "932caa2843123163c0e4cb6c23e69c02"
     },
     "scales": {
       "Package": "scales",
