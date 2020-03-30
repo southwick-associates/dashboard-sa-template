@@ -23,7 +23,7 @@ source("../params.R")
 ## Load Data 
 
 ```{r}
-con <- dbConnect(RSQLite::SQLite(), db_license)
+con <- dbConnect(RSQLite::SQLite(), db_production)
 lic <- tbl(con, "lic") %>% collect()
 cust <- tbl(con, "cust") %>% 
     select(cust_id, birth_year, sex) %>%

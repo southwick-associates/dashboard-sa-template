@@ -122,7 +122,7 @@ glimpse(sale)
 
 # Write to SQLite ---------------------------------------------------------
 
-con <- dbConnect(RSQLite::SQLite(), db_license)
+con <- dbConnect(RSQLite::SQLite(), db_production)
 dbWriteTable(con, "cust", cust, overwrite = TRUE)
 dbWriteTable(con, "lic", lic, overwrite = TRUE)
 dbWriteTable(con, "sale", sale, overwrite = TRUE)

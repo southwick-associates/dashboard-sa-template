@@ -9,5 +9,7 @@ workflow::run_html("code/1-prep-license-data/05-finalize.R")
 workflow::run_rmd_html("code/1-prep-license-data/06-check-final.Rmd")
 
 # prepare dashboard summary data
-workflow::run_html("code/2-prep-dashboard/01-history.R")
-workflow::run_html("code/2-prep-dashboard/02-dashboard-data.R")
+workflow::run_html("code/2-prep-dashboard/01-dashboard-data.R")
+
+# visualize dashboard with shiny
+dashtemplate::run_visual()
