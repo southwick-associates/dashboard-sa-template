@@ -10,7 +10,9 @@ new_project(
   analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
   sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state,
     paste0("raw-", period)),
-  production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state)
+  production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
+  package = "lictemplate",
+  print_message = "A new license data project has been initialized"
 )
 }
 \arguments{
@@ -26,6 +28,10 @@ no folders will be created.}
 
 \item{production_path}{character: File path for the production data. If NULL, 
 no folders will be created.}
+
+\item{package}{character: name of package where the template files live}
+
+\item{print_message}{character: Message to print on success}
 }
 \description{
 This is intended to be run before data processing for a new state begins.

@@ -12,6 +12,9 @@
 #' no folders will be created.
 #' @param production_path character: File path for the production data. If NULL, 
 #' no folders will be created.
+#' @param package character: name of package where the template files live
+#' @param print_message character: Message to print on success
+#' 
 #' @family functions for making template files/folders
 #' @export
 #' @examples
@@ -20,8 +23,15 @@ new_project <- function(
     state, period, 
     analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
     sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
-    production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state)
+    production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
+    package = "lictemplate",
+    print_message = "A new license data project has been initialized"
 ) {
+    # error - don't run if the specified package isn't intalled
+    # - e.g., if using template files from sadash package
+    has_package <- nzchar(system.file(package = package))
+    if (!has_package) stop("Package ", package, " isn't installed", call. = FALSE)
+    
     # error - don't run if the drive in specified paths don't exist
     check_drive <- function(path) {
         path <- gsub("\\\\", "/", path) # ensure directories are separated by "/"
@@ -41,7 +51,7 @@ new_project <- function(
     
     # create analysis folders/files
     template_paths <- list.files(
-        system.file("template", package = "lictemplate"), full.names = TRUE
+        system.file("template", package = package), full.names = TRUE
     )
     for (i in template_paths) {
         file.copy(i, analysis_path, recursive = TRUE, overwrite = FALSE)
@@ -78,5 +88,5 @@ new_project <- function(
     dir_create(production_path)
     
     # print message
-    message("A new license data project has been initialized:\n  ", analysis_path)
+    message(print_message, ":\n  ", analysis_path)
 }
