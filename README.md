@@ -13,7 +13,9 @@ remotes::install_github("southwick-associates/lictemplate")
     
 ## Usage
 
-1. Populate a directory with template files:
+### 1. Build Templates
+
+Populate a directory with template files:
 
 ```r
 # example for South Dakota 2019 end-of-year dashboard
@@ -26,10 +28,14 @@ Running `new_project()` creates data directories and a set of template files/fol
 
 ![](img/new-dashboard.png)
 
-2. Open the Rstudio project just created and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
+### 2. Build Project Library
+
+Open the Rstudio project just created and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
 
 ```r
 renv::restore()
 ```
+
+### 3. Process Data
 
 See [package salicprep](https://github.com/southwick-associates/salicprep) for data processing guidelines.
