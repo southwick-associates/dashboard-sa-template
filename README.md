@@ -1,7 +1,7 @@
 # lictemplate
 
 An R package that provides template workflows for license data preparation and dashboard production. The workflows make use of several other SA-built R packages: [salic](https://southwick-associates.github.io/salic/), [salicprep](https://github.com/southwick-associates/salicprep), [workflow](https://github.com/southwick-associates/workflow),
-[sadash](https://github.com/southwick-associates/workflow).
+[sadash](https://github.com/southwick-associates/sadash).
 
 ## Installation
 
