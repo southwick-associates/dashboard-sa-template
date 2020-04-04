@@ -401,18 +401,6 @@
       "Repository": "CRAN",
       "Hash": "d908914ae53b04d4c0c0fd72ecc35370"
     },
-    "lictemplate": {
-      "Package": "lictemplate",
-      "Version": "0.5.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "southwick-associates",
-      "RemoteRepo": "lictemplate",
-      "RemoteRef": "master",
-      "RemoteSha": "e42e179ada88a59cc35d365f931e2effc8e81561",
-      "Hash": "5acc484da2d1796e13a3830ed04500f5"
-    },
     "lifecycle": {
       "Package": "lifecycle",
       "Version": "0.2.0",
@@ -686,15 +674,15 @@
     },
     "sadash": {
       "Package": "sadash",
-      "Version": "1.0.9",
+      "Version": "1.2.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "southwick-associates",
       "RemoteRepo": "sadash",
       "RemoteRef": "master",
-      "RemoteSha": "1b117d98101122fb8b30a3c04037af6d4dffc3cf",
-      "Hash": "48c0dfe355fb72512f7318c7595fee8a"
+      "RemoteSha": "83ddef5d139bdd0665e24003d3e4d731cfbc261d",
+      "Hash": "a27846a4a16aec018fa521277d0701df"
     },
     "salic": {
       "Package": "salic",
