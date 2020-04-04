@@ -1,5 +1,70 @@
 # functions for making template files/folders
 
+# Helper Functions --------------------------------------------------------
+
+#' Helper function for setting up project code
+#' 
+#' Only intended to be run from other functions: (\code{\link{new_project}}), etc.
+#' It does some error checking and sets up analysis/data folders.
+#' 
+#' @inheritParams new_project
+#' @family functions for making template files/folders
+#' @export
+setup_project <- function(
+    state, period, analysis_path, sensitive_path, production_path
+) {
+    # error check - don't run if the drive in specified paths don't exist
+    check_drive <- function(path) {
+        path <- gsub("\\\\", "/", path) # ensure directories are separated by "/"
+        drive = paste0(unlist(strsplit(path, "/"))[1], "/")
+        if (!dir.exists(drive)) {
+            stop("The ", drive, " drive from ", path, 
+                 " doesn't exist on your computer", call. = FALSE)
+        }
+    }
+    sapply(c(analysis_path, sensitive_path, production_path), check_drive)
+    
+    # error check - don't run if a directory with that time period already exists
+    if (dir.exists(analysis_path)) {
+        stop("That period already exists!: ", analysis_path, call. = FALSE)
+    }
+    
+    # create data folders (sensitive, production)
+    dir_create <- function(path) {
+        if (!is.null(path)) {
+            dir.create(path, recursive = TRUE, showWarnings = FALSE)
+        }
+    }
+    dir_create(sensitive_path)
+    dir_create(production_path)
+    
+    # create analysis folder
+    dir.create(analysis_path, recursive = TRUE)
+}
+
+#' Helper function to replace parameter strings
+#' 
+#' Intended only to be called from other lictemplate functions. Particularly for 
+#' use in the "params.R" file.
+#' 
+#' @param files full path to file(s) that containts strings to be replaced
+#' @param new vector of new values to be used
+#' @param old corresponding vector of old values to be replaced
+#' 
+#' @family functions for making template files/folders
+#' @export
+replace_params <- function(files, new, old) {
+    for (f in files) {
+        x <- readLines(f)
+        for (i in seq_along(new)) {
+            x <- gsub(old[i], new[i], x)
+        }
+        cat(x, file = f, sep = "\n")
+    }
+}
+
+# New Projects ------------------------------------------------------------
+
 #' Setup a new state project with default directories and template scripts
 #' 
 #' This is intended to be run before data processing for a new state begins.
@@ -29,24 +94,10 @@ new_project <- function(
     template_path = "template",
     print_message = "A new license data project has been initialized"
 ) {
-    # error - don't run if the drive in specified paths don't exist
-    check_drive <- function(path) {
-        path <- gsub("\\\\", "/", path) # ensure directories are separated by "/"
-        drive = paste0(unlist(strsplit(path, "/"))[1], "/")
-        if (!dir.exists(drive)) {
-            stop("The ", drive, " drive from ", path, 
-                 " doesn't exist on your computer", call. = FALSE)
-        }
-    }
-    sapply(c(analysis_path, sensitive_path, production_path), check_drive)
+    # setup folders
+    setup_project(state, period, analysis_path, sensitive_path, production_path)
     
-    # error - don't run if a directory with that time period already exists
-    if (dir.exists(analysis_path)) {
-        stop("That period already exists!: ", analysis_path, call. = FALSE)
-    }
-    dir.create(analysis_path, recursive = TRUE)
-    
-    # create analysis folders/files
+    # copy analysis files from template
     template_paths <- list.files(
         system.file(template_path, package = "lictemplate"), full.names = TRUE
     )
@@ -54,7 +105,7 @@ new_project <- function(
         file.copy(i, analysis_path, recursive = TRUE, overwrite = FALSE)
     }
     
-    # - rename 2 analysis files
+    # rename 2 analysis files
     file.rename(
         file.path(analysis_path, "Rprofile-tmp"),
         file.path(analysis_path, ".Rprofile")
@@ -64,27 +115,16 @@ new_project <- function(
         file.path(analysis_path, paste0(state, "-", period, ".Rproj"))
     )
     
-    # - replace parameter (state, period) values in select files
-    replace_params <- function(file) {
-        f <- file.path(analysis_path, file)
-        x <- readLines(f)
-        x <- gsub("__state__", state, x)
-        x <- gsub("__period__", period, x)
-        cat(x, file = f, sep = "\n")
-    }
-    replace_params("code/params.R")
-    replace_params("README.md")
+    # replace parameter (state, period) values in select files
+    replace_params(
+        files = c(
+            file.path(analysis_path, "README.md"), 
+            file.path(analysis_path, "code", "params.R")
+        ), 
+        new = c(state, period), old = c("__state__", "__period__")
+    )
     
-    # create data folders (sensitive, production)
-    dir_create <- function(path) {
-        if (!is.null(path)) {
-            dir.create(path, recursive = TRUE, showWarnings = FALSE)
-        }
-    }
-    dir_create(sensitive_path)
-    dir_create(production_path)
-    
-    # print message
+    # print message to console
     message(print_message, ":\n  ", analysis_path)
 }
 
@@ -108,4 +148,87 @@ new_project_individual <- function(
 ) {
     new_project(state, period, template_path = template_path, 
                 print_message = print_message, ...)
+}
+
+# Update Projects ---------------------------------------------------------
+
+#' Setup a new period for a project
+#' 
+#' This will setup files based on a reference time period, rather than 
+#' creating new files based on the default template. By default, the new analysis 
+#' folder will include all ref_period R files (.R, .Rmd, etc.) and their
+#' containing folders, as well as .txt/.tex files.
+#' 
+#' @inheritParams new_project
+#' @param ref_period folder name of reference time period (e.g., 2019-q4)
+#' @param ref_path full file path to reference period analysis folder
+#' @param files_to_keep patterns for matching on files in the "code" folder using grep 
+#' (not case sensitive). Files with matching patterns will be copied from ref_period.
+#' @param top_level_files top-level analysis files that should be copied over
+#' 
+#' @family functions for making template files/folders
+#' @export
+update_project <- function(
+    state, period, ref_period, 
+    ref_path = file.path("E:/SA/Projects/Data-Dashboards", state, ref_period),
+    analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
+    sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
+    production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
+    files_to_keep = c("\\.r", "documentation\\.tex", "\\.txt"),
+    top_level_files = c(".Rprofile", "README.md", "renv.lock", "renv/activate.R",  
+                        "renv/settings.dcf")
+) {
+    # error check - reference path
+    if (!dir.exists(ref_path)) {
+        stop("The reference path (", ref_path, ") doesn't exist", call. = FALSE)
+    }
+    
+    # setup folders
+    setup_project(state, period, analysis_path, sensitive_path, production_path)
+    
+    # identify files/folders to copy
+    match_files <- function(file_match, all_files) {
+        x <- lapply(file_match, grep, x = tolower(all_files))
+        unique(unlist(x)) 
+    }
+    code_path <- file.path(ref_path, "code")
+    all_files <- list.files(code_path, recursive = TRUE, all.files = TRUE)
+    keep_files <- all_files[match_files(files_to_keep, all_files)]
+    
+    # copy analysis files
+    copy_files <- function(file_names) {
+        for (i in file_names) {
+            old <- file.path(ref_path, i)
+            new <- file.path(analysis_path, i)
+            if (file.exists(old)) {
+                dir.create(dirname(new), recursive = TRUE, showWarnings = FALSE)
+                file.copy(old, new, overwrite = FALSE)
+            }
+        }
+    }
+    copy_files(file.path("code", keep_files))
+    
+    # copy top-level files
+    copy_files(top_level_files)
+    
+    # copy .Rproj and rename
+    oldname <- paste0(state, "-", ref_period, ".Rproj")
+    newname <- paste0(state, "-", period, ".Rproj")
+    copy_files(oldname)
+    file.rename(
+        file.path(analysis_path, oldname),
+        file.path(analysis_path, newname)
+    )
+    
+    # replace parameters from previous time period
+    replace_params(
+        files = c(
+            file.path(analysis_path, "README.md"), 
+            file.path(analysis_path, "code", "params.R")
+        ),
+        new = period, old = ref_period
+    )
+    
+    # print message
+    message("An updated project has been initialized:\n  ", analysis_path)
 }

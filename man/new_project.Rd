@@ -42,6 +42,9 @@ This is intended to be run before data processing for a new state begins.
 }
 \seealso{
 Other functions for making template files/folders: 
-\code{\link{new_project_individual}()}
+\code{\link{new_project_individual}()},
+\code{\link{replace_params}()},
+\code{\link{setup_project}()},
+\code{\link{update_project}()}
 }
 \concept{functions for making template files/folders}

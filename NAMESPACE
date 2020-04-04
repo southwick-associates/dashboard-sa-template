@@ -2,3 +2,6 @@
 
 export(new_project)
 export(new_project_individual)
+export(replace_params)
+export(setup_project)
+export(update_project)
