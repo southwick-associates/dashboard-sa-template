@@ -11,7 +11,7 @@ new_project(
   sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state,
     paste0("raw-", period)),
   production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
-  package = "lictemplate",
+  template_path = "template",
   print_message = "A new license data project has been initialized"
 )
 }
@@ -29,7 +29,8 @@ no folders will be created.}
 \item{production_path}{character: File path for the production data. If NULL, 
 no folders will be created.}
 
-\item{package}{character: name of package where the template files live}
+\item{template_path}{character: Name of inst subpath in the package that points
+to the template files}
 
 \item{print_message}{character: Message to print on success}
 }
@@ -37,6 +38,10 @@ no folders will be created.}
 This is intended to be run before data processing for a new state begins.
 }
 \examples{
-# new_project("YY", "2019-q4")
+# new_project("XX", "2019-q4")
+}
+\seealso{
+Other functions for making template files/folders: 
+\code{\link{new_project_individual}()}
 }
 \concept{functions for making template files/folders}

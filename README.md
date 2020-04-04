@@ -13,9 +13,16 @@ remotes::install_github("southwick-associates/lictemplate")
     
 ## Usage
 
-### 1. Build Templates
+The package includes several functions for automating the production of template workflows:
 
-Populate a directory with template files:
+- `new_project()` for a workflow based on national/regional dashboards (and potentially useful for other projects)
+- `update_project()` to copy the workflow from an earlier time period
+- `new_project_individual()` for an individual state dashboard workflow
+- `setup_data_dive()` to add the workflow necessary for producing a data dive project (sometimes included as part of individual state dashboards)
+
+### Example New Project
+
+First populate a directory with template files. This creates data directories and a set of template files/folders for analysis, defaulting to Data Server file paths:
 
 ```r
 # example for South Dakota 2019 end-of-year dashboard
@@ -24,18 +31,12 @@ lictemplate::new_project("SD", "2019-q4")
 ##  E:/SA/Projects/Data-Dashboards/SD/2019-q4
 ```
 
-Running `new_project()` creates data directories and a set of template files/folders for analysis, defaulting to Data Server file paths:
-
 ![](img/new-dashboard.png)
 
-### 2. Build Project Library
-
-Open the Rstudio project just created and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
+Next, open the Rstudio project just created and build the project package library with [package renv](https://rstudio.github.io/renv/index.html):
 
 ```r
 renv::restore()
 ```
-
-### 3. Process Data
 
 See [package salicprep](https://github.com/southwick-associates/salicprep) for data processing guidelines.
