@@ -232,3 +232,47 @@ update_project <- function(
     # print message
     message("An updated project has been initialized:\n  ", analysis_path)
 }
+
+#' Setup data dive template
+#' 
+#' This is to be run for an existing state-time_period dashboard project. 
+#' It creates a new folder with template code. Defaults to placing a "5-data-dive"
+#' folder in the working directory (i.e., when state and time_period are NULL).
+#' 
+#' @inheritParams new_project
+#' @param dive_path folder for data dive code
+#' @family functions for making template files/folders
+#' @export
+#' @examples 
+#' # setup_data_dive("YY", "2019-q4")
+setup_data_dive <- function(
+    state, period, 
+    analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
+    dive_path = file.path(analysis_path, "code", "5-data-dive")
+) {
+    # error check - whether analysis path exists
+    if (!dir.exists(analysis_path)) {
+        stop("The analysis path (", analysis_path, ") doesn't exist", call. = FALSE)
+    }
+    
+    # error check - whether data diver directory exists
+    if (dir.exists(dive_path)) {
+        stop("The data dive path (", dive_path, ") already exists", call. = FALSE)
+    }
+    
+    # create dive_path
+    dir.create(dive_path)
+    
+    # copy template files to dive_path
+    template_dir <- system.file("template-dive", package = "lictemplate")
+    template_files <- list.files(template_dir)
+    
+    for (i in template_files) {
+        file.copy(
+            file.path(template_dir, i), 
+            file.path(dive_path, i), 
+            overwrite = FALSE
+        )
+    }
+    message("A data dive folder has been initialized:\n  ", dive_path)
+}

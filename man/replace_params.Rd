@@ -21,6 +21,7 @@ use in the "params.R" file.
 Other functions for making template files/folders: 
 \code{\link{new_project_individual}()},
 \code{\link{new_project}()},
+\code{\link{setup_data_dive}()},
 \code{\link{setup_project}()},
 \code{\link{update_project}()}
 }

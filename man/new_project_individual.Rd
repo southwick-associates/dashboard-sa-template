@@ -37,6 +37,7 @@ It's just a wrapper for \code{\link{new_project}}.
 Other functions for making template files/folders: 
 \code{\link{new_project}()},
 \code{\link{replace_params}()},
+\code{\link{setup_data_dive}()},
 \code{\link{setup_project}()},
 \code{\link{update_project}()}
 }
