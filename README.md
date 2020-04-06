@@ -16,10 +16,14 @@ remotes::install_github("southwick-associates/lictemplate")
 
 The package includes several functions for automating the production of template workflows:
 
-- `new_project()` for a workflow based on national/regional dashboards (and potentially useful for other projects)
-- `update_project()` to copy the workflow from an earlier time period
-- `new_project_individual()` for an individual state dashboard workflow
-- `setup_data_dive()` to add the workflow necessary for producing a data dive project (sometimes included as part of individual state dashboards)
+- **initializating new projects**: 
+    + `new_project()` for basic processing (e.g., national/regional dashboards)
+    + TODO: `new_project_summary()` for states that provide summarized data for national/regional dashboard
+    + `new_project_individual()` for more involved individual state dashboards
+- **updating existing projects:**
+    + `update_project()` to copy the workflow from an earlier time period
+    + `setup_data_dive()` to add the workflow necessary for producing a data dive project (sometimes included as part of individual state dashboards)
+- TODO (maybe): `archive_raw_data()` to move raw data to the archive H drive on the data server.
 
 ### Example New Project
 
