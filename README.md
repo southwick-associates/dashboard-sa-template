@@ -1,6 +1,6 @@
 # lictemplate
 
-An R package that provides template workflows for license data preparation and dashboard production. These  workflows make use of several other SA-built R packages: [salic](https://southwick-associates.github.io/salic/), [salicprep](https://github.com/southwick-associates/salicprep), [workflow](https://github.com/southwick-associates/workflow),
+An R package that provides template workflows for license data preparation and dashboard production. These templates make use of several other SA-built R packages: [salic](https://southwick-associates.github.io/salic/), [salicprep](https://github.com/southwick-associates/salicprep), [workflow](https://github.com/southwick-associates/workflow),
 [sadash](https://github.com/southwick-associates/sadash).
 
 ## Installation
@@ -14,20 +14,20 @@ remotes::install_github("southwick-associates/lictemplate")
     
 ## Usage
 
-Lictemplate provides functions for automating license data workflows:
+Lictemplate provides functions to automate license data workflows:
 
 - **Initialize new projects**: 
     + `new_project()` for a basic processing workflow (e.g., national/regional dashboards)
     + TODO: `new_project_summary()` for states that provide summarized data for national/regional dashboards
-    + `new_project_individual()` for more involved individual state dashboards
+    + `new_project_individual()` for the more involved individual state dashboards
 - **Update existing projects:**
     + `update_project()` to copy the workflow from an earlier time period with updated parameters
-    + `setup_data_dive()` to tack on the workflow for producing a data dive project
-    + TODO: `archive_raw_data()` to move raw data to the archive H drive.
+    + `setup_data_dive()` to add code neeeded for a data dive project
+    + TODO: `archive_raw_data()` to move raw data to an archive drive
 
 ### Example New Project
 
-To begin a new project, first create data directories and template files for analysis (e.g, on the Data Server, a South Dakota dashboard):
+To begin a new project, first create data directories and template files for analysis. For example, creating a South Dakota dashboard project on the server:
 
 ```r
 lictemplate::new_project("SD", "2019-q4")
