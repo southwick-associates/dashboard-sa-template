@@ -1,6 +1,6 @@
 # lictemplate
 
-An R package that provides template workflows for license data preparation and dashboard production. The workflows make use of several other SA-built R packages: [salic](https://southwick-associates.github.io/salic/), [salicprep](https://github.com/southwick-associates/salicprep), [workflow](https://github.com/southwick-associates/workflow),
+An R package that provides template workflows for license data preparation and dashboard production. These  workflows make use of several other SA-built R packages: [salic](https://southwick-associates.github.io/salic/), [salicprep](https://github.com/southwick-associates/salicprep), [workflow](https://github.com/southwick-associates/workflow),
 [sadash](https://github.com/southwick-associates/sadash).
 
 ## Installation
@@ -14,23 +14,22 @@ remotes::install_github("southwick-associates/lictemplate")
     
 ## Usage
 
-The package includes several functions for automating the production of template workflows:
+Lictemplate provides functions for automating license data workflows:
 
-- **initializating new projects**: 
-    + `new_project()` for basic processing (e.g., national/regional dashboards)
-    + TODO: `new_project_summary()` for states that provide summarized data for national/regional dashboard
+- **Initialize new projects**: 
+    + `new_project()` for a basic processing workflow (e.g., national/regional dashboards)
+    + TODO: `new_project_summary()` for states that provide summarized data for national/regional dashboards
     + `new_project_individual()` for more involved individual state dashboards
-- **updating existing projects:**
-    + `update_project()` to copy the workflow from an earlier time period
-    + `setup_data_dive()` to add the workflow necessary for producing a data dive project (sometimes included as part of individual state dashboards)
-- TODO (maybe): `archive_raw_data()` to move raw data to the archive H drive on the data server.
+- **Update existing projects:**
+    + `update_project()` to copy the workflow from an earlier time period with updated parameters
+    + `setup_data_dive()` to tack on the workflow for producing a data dive project
+    + TODO: `archive_raw_data()` to move raw data to the archive H drive.
 
 ### Example New Project
 
-First populate a directory with template files. This creates data directories and a set of template files/folders for analysis, defaulting to Data Server file paths:
+To begin a new project, first create data directories and template files for analysis (e.g, on the Data Server, a South Dakota dashboard):
 
 ```r
-# example for South Dakota 2019 end-of-year dashboard
 lictemplate::new_project("SD", "2019-q4")
 ## A new license data project has been initialized:
 ##  E:/SA/Projects/Data-Dashboards/SD/2019-q4
