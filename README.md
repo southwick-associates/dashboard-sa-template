@@ -23,7 +23,7 @@ Lictemplate provides functions to automate license data workflows:
 - **Update existing projects:**
     + `update_project()` to copy the workflow from an earlier time period with updated parameters
     + `setup_data_dive()` to add code neeeded for a data dive project
-    + TODO: `archive_raw_data()` to move raw data to an archive drive
+    + TODO: `archive_data()` and `destroy_data()` to manage license data
 
 ### Example New Project
 
