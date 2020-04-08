@@ -125,44 +125,84 @@ setup_data_dive <- function(
     message("A data dive folder has been initialized:\n  ", dive_path)
 }
 
-#' Move raw data to archive drive
+#' Move data to archive
 #' 
-#' TODO: probably want to move all raw data from before some time period
+#' By default, copies all raw data equal to and earlier than the specified time
+#' period to the archive H drive (and then removes corresponding files from the 
+#' E drive).
 #' 
 #' @inheritParams new_project
 #' @param current_drive drive from which to move
 #' @param archive_drive destination drive
-#' @param dirs_to_move directories in which all containing files will be moved.
-#' If NULL, no directories will be moved
-#' @param files_to_move named files to be moved. If NULL, no files will be moved.
-#' @param reverse If TRUE, moves in the opposite direction (e.g., undo)
+#' @param pattern matching pattern sent to \code{\link[base]{list.files}}
+#' @param move_folders If TRUE, will move files within folders matching the pattern
+#' @param move_files If TRUE, will move files matching the pattern (e.g., sqlite)
 #' 
 #' @family functions to update projects
 #' @export
-#' @examples 
-#' # archive_data("YY", "2019-q4") # archive
-#' # archive_data("YY", "2019-q4", reverse = TRUE) # move back
-#' 
-#' # archive data for all states
-#' states <- list.files("E:/SA/Data-sensitive/Data-Dashboards")
-#' for (i in states) archive_data(i, "2019-q4")
-archive_data <- function(
+data_archive <- function(
     state, period,
     current_drive = file.path("E:/SA/Data-sensitive/Data-Dashboards", state),
     archive_drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
-    dirs_to_move = paste0("raw-", state, "-", period),
-    files_to_move = paste0("raw-", state, "-", period, ".sqlite3"),
-    reverse = FALSE
+    pattern = "raw-2...-q.",
+    move_folders = TRUE,
+    move_files = TRUE
 ) {
-    # store the relevant file names in a vector
-    # - want all periods equal and prior to selected
+    check_drive <- function(drive) {
+        if (!dir.exists(drive)) {
+            stop("The", drive, "drive doesn't exist", call. = FALSE)
+        }
+    }
+    check_drive(current_drive)
+    check_drive(archive_drive)
     
-    # run the move
-    if (reverse) {
+    # store the matching file/folder names in a vector
+    files <- list.files(current_drive, pattern = pattern)
+    files <- get_periods(files, period)
+    
+    if (length(files) == 0) {
+        message("No files to move in ", current_drive)
+        return(invisible())
+    }
+    
+    # separate files from folders
+    is_dir <- dir.exists(file.path(current_drive, files))
+    dirs <- files[is_dir]
+    files <- files[!is_dir]
+    
+    # define function to remove current_files after moving to archive
+    files_remove <- function(current_files, archive_files) {
+        if (all(file.exists(archive_files))) {
+            file.remove(current_files)
+        } else {
+            stop("Error copying files. These weren't removed.", 
+                 cat(current_files, sep = "\n"), call. = FALSE)
+        }
+    }
+    
+    # move files stored in matching folders
+    if (move_folders && length(dirs) != 0) {
+        for (i in dirs) {
+            dir.create(file.path(archive_drive, i), recursive = TRUE, 
+                       showWarnings = FALSE)
+            file.copy(file.path(current_drive, i), archive_drive, 
+                      recursive = TRUE)
+        }
+        current_files <- list.files(
+            file.path(current_drive, dirs), full.names = TRUE, recursive = TRUE
+        )
+        archive_files <- sub(current_drive, archive_drive, current_files)
+        files_remove(current_files, archive_files)
         
     }
-    # move dirs_to_move
-    # move files_to_move
+    
+    # move matching files
+    if (move_files && length(files) != 0) {
+        current_files <- file.path(current_drive, files)
+        archive_files <- file.path(archive_drive, files)
+        file.copy(current_files, archive_files)
+        files_remove(current_files, archive_files)
+    }
 }
 
 #' Permanently remove data
@@ -177,7 +217,7 @@ archive_data <- function(
 #' 
 #' @family functions to update projects
 #' @export
-destroy_data <- function(
+data_destroy <- function(
     state, period,
     drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
     force_destroy = FALSE

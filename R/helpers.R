@@ -1,6 +1,5 @@
 # helper functions
 
-
 #' Helper function for setting up project code
 #' 
 #' Only intended to be run from other functions: (\code{\link{new_project}}), etc.
@@ -60,4 +59,21 @@ replace_params <- function(files, new, old) {
         }
         cat(x, file = f, sep = "\n")
     }
+}
+
+#' Helper function to identify files with equal to or lower given period
+#' 
+#' To be called from \code{\link{data_archive}}
+#' 
+#' @param files vector of files/folders
+#' @inheritParams new_project
+#' @family helper functions
+#' @export
+#' @examples 
+#' files <- c("raw-2016-q2", "raw-2016-q4", "raw-2016-q4.sqlite3",
+#'            "raw-2017-q2", "raw-2017-q4")
+#' get_periods(files, "2016-q4")
+get_periods <- function(files, period) {
+    most_recent_match <- tail(grep(period, files), 1)
+    files[1:most_recent_match]
 }
