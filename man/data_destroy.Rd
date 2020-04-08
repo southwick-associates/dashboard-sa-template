@@ -2,13 +2,13 @@
 % Please edit documentation in R/update.R
 \name{data_destroy}
 \alias{data_destroy}
-\title{Permanently remove data}
+\title{(Not implemented) Permanently remove data}
 \usage{
 data_destroy(
   state,
   period,
   drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
-  force_destroy = FALSE
+  force = FALSE
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ data_destroy(
 
 \item{drive}{target location from which to remove files}
 
-\item{force_destroy}{If TRUE, delete without prompt (potentially useful for
+\item{force}{If TRUE, delete without prompt (potentially useful for
 batch deletes). Use with caution.}
 }
 \description{

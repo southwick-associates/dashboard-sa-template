@@ -2,7 +2,7 @@
 % Please edit documentation in R/update.R
 \name{data_archive}
 \alias{data_archive}
-\title{Move data to archive}
+\title{Move data to archive for a state (equal-to or before a period)}
 \usage{
 data_archive(
   state,
@@ -11,7 +11,7 @@ data_archive(
   archive_drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
   pattern = "raw-2...-q.",
   move_folders = TRUE,
-  move_files = TRUE
+  move_files = FALSE
 )
 }
 \arguments{
@@ -31,9 +31,9 @@ data_archive(
 \item{move_files}{If TRUE, will move files matching the pattern (e.g., sqlite)}
 }
 \description{
-By default, copies all raw data equal to and earlier than the specified time
-period to the archive H drive (and then removes corresponding files from the 
-E drive).
+Probably most useful for moving in batches (e.g., looping across states). 
+Othewise it can be done easily by hand. By default, moves relevant raw data 
+files to the H drive.
 }
 \seealso{
 Other functions to update projects: 

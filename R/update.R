@@ -125,11 +125,11 @@ setup_data_dive <- function(
     message("A data dive folder has been initialized:\n  ", dive_path)
 }
 
-#' Move data to archive
+#' Move data to archive for a state (equal-to or before a period)
 #' 
-#' By default, copies all raw data equal to and earlier than the specified time
-#' period to the archive H drive (and then removes corresponding files from the 
-#' E drive).
+#' Probably most useful for moving in batches (e.g., looping across states). 
+#' Othewise it can be done easily by hand. By default, moves relevant raw data 
+#' files to the H drive.
 #' 
 #' @inheritParams new_project
 #' @param current_drive drive from which to move
@@ -146,24 +146,15 @@ data_archive <- function(
     archive_drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
     pattern = "raw-2...-q.",
     move_folders = TRUE,
-    move_files = TRUE
+    move_files = FALSE
 ) {
-    check_drive <- function(drive) {
-        if (!dir.exists(drive)) {
-            stop("The", drive, "drive doesn't exist", call. = FALSE)
-        }
+    if (!dir.exists(current_drive)) {
+        stop("The", current_drive, "drive doesn't exist", call. = FALSE)
     }
-    check_drive(current_drive)
-    check_drive(archive_drive)
     
     # store the matching file/folder names in a vector
     files <- list.files(current_drive, pattern = pattern)
     files <- get_periods(files, period)
-    
-    if (length(files) == 0) {
-        message("No files to move in ", current_drive)
-        return(invisible())
-    }
     
     # separate files from folders
     is_dir <- dir.exists(file.path(current_drive, files))
@@ -205,14 +196,14 @@ data_archive <- function(
     }
 }
 
-#' Permanently remove data
+#' (Not implemented) Permanently remove data
 #' 
 #' By default you will be prompted to enter "yes" to confirm that you want to
 #' remove a specified set of files.
 #' 
 #' @inheritParams new_project
 #' @param drive target location from which to remove files
-#' @param force_destroy If TRUE, delete without prompt (potentially useful for
+#' @param force If TRUE, delete without prompt (potentially useful for
 #' batch deletes). Use with caution.
 #' 
 #' @family functions to update projects
@@ -220,9 +211,9 @@ data_archive <- function(
 data_destroy <- function(
     state, period,
     drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
-    force_destroy = FALSE
+    force = FALSE
 ) {
-    if (!force_destroy) {
+    if (!force) {
         cat("Be careful. This will permanently delete these files:",
             drive, "\n")
         user_input <- readline(
@@ -233,5 +224,5 @@ data_destroy <- function(
         }
     }
     # remove files
-    cat("Files have been removed from ", drive)
+    
 }
