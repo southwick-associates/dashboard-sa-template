@@ -3,15 +3,20 @@
 # - only select columns will be needed in the standardized data
 # - much of the code needed here is state-specific
 
+# - workflow::run_html() may produce an error after deduplication with data.table
+#   sourcing the file should work fine, but no log file produced as a result
+
 ## State-specific Notes
 # - 
 
 library(tidyverse)
 library(DBI)
 library(stringr)
+library(data.table) # for deduplication performance
 library(lubridate)
 library(salic)
 library(salicprep)
+library(sadash)
 source("code/params.R")
 
 # License -----------------------------------------------------------------
@@ -28,8 +33,9 @@ write_csv(lic, "data/lic.csv")
 
 # Standardize Customers -----------------------------------------------------
 
+# load raw data
 cust <- tbl(con, "cust") %>% 
-    select(raw_cust_id) %>%
+    select(raw_cust_id, and_other_columns) %>%
     collect()
 
 # check for inconsistency in customer ID
@@ -53,7 +59,9 @@ cust <- select(cust, -state) %>% rename(state = state_new)
 cust$cust_res <- ifelse(cust$state == state, 1L, 0L)
 count(cust, cust_res)
 
-# convert date of birth to date format
+# standardize date
+# - you may want to use string parsing instead (e.g., substr) since converting back to
+#   character (e.g., with date_to_char) is very slow 
 cust <- recode_date(cust, "dob", function(x) str_sub(x, end = 10) %>% ymd())
 
 # gender
@@ -64,6 +72,7 @@ cust <- select(cust, -sex) %>% rename(sex = sex_new)
 
 # Standardize Sales -------------------------------------------------------
 
+# load raw
 sale <- tbl(con, "sale") %>% 
     select(raw_sale_id) %>% 
     collect()
@@ -76,19 +85,48 @@ sale <- recode_date(sale, "end_date", function(x) str_sub(x, end = 10) %>% ymd()
 
 # Final Formatting ---------------------------------------------------------
 
-# convert dates to character (for sqlite)
-# this can take a couple minutes to run for large datasets
-sale <- date_to_char(sale)
-cust <- date_to_char(cust)
-
 # add period for data provenance
 cust$cust_period <- period
 sale$sale_period <- period
 
+# only keep columns of interest
+cust <- select(cust, -Gender, -Residency)
+sale <- select(sale, -Pricecode, -SKU)
+
 # check the data standardization rules
 data_check_standard(cust, lic, sale)
 
-glimpse(lic)
+# Add to Existing ---------------------------------------------------------
+
+# pull old standard data and stack with new
+# - preferably we want only want to be storing one standard.sqlite3
+#   but there may be multiple standard databases from previous iterations
+dbs <- list.files(dirname(dir_raw), pattern = "standard-2", full.names = TRUE)
+
+cust <- lapply(dbs, load_cust_standard) %>% bind_rows(cust)
+count(cust, cust_period)
+
+sale <- lapply(dbs, load_sale_standard) %>% bind_rows(sale)
+count(sale, sale_period)
+
+# Deduplicate (if needed) -------------------------------------------------
+
+# data.table is MUCH faster and more memory efficient than dplyr for this
+# - dplyr will choke once you get in the tens of millions of rows
+
+# we only want the most recent record for a given customer ID
+# - grouping by customer ID and preferring more recent records
+setDT(cust)
+setorderv(cust, "cust_period")
+cust <- cust[, tail(.SD, 1), by = "cust_id"]
+setDF(cust)
+count(cust, cust_period)
+
+# note: deduplication of sales isn't necessary for the workflow
+# although it can help if the size of the table is reduced
+
+# final checks
+data_check_standard(cust, lic, sale)
 glimpse(cust)
 glimpse(sale)
 

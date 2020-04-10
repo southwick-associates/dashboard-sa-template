@@ -54,6 +54,8 @@ cust$cust_res <- ifelse(cust$state == state, 1L, 0L)
 count(cust, cust_res)
 
 # convert date of birth to date format
+# - note that converting from dates back to character is very slow (date_to_char below)
+#   and you may be better off doing string parsing to get the necessary format
 cust <- recode_date(cust, "dob", function(x) str_sub(x, end = 10) %>% ymd())
 
 # gender

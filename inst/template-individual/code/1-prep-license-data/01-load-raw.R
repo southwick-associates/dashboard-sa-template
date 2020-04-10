@@ -10,8 +10,8 @@ source("code/params.R")
 
 ## state-specific file identification
 files <- list.files(dir_raw, full.names = TRUE)
-lic_file = files[1]
-cust_file = files[2]
+cust_file = files[1]
+lic_file = files[2]
 sale_file = files[3]
 
 # Load Customers ----------------------------------------------------------------
