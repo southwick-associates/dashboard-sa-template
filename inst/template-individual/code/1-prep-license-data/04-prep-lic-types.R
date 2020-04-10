@@ -4,6 +4,8 @@
 # - add lic$duration
 # - (maybe) add lic$lic_res
 
+# TODO: Incomplete template
+
 ## State-specific Notes
 # - 
 

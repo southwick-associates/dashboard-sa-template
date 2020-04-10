@@ -1,6 +1,9 @@
 # finalize production sqlite database
 # https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/data-schema.md
 
+# TODO: incomplete template
+
+
 ## State-specific Notes
 # - 
 

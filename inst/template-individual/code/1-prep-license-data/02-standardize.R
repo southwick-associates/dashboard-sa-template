@@ -4,12 +4,10 @@
 # - much of the code needed here is state-specific
 
 # - workflow::run_html() may produce an error after deduplication with data.table
-#   sourcing the file should work fine, but no log file produced as a result
+#   sourcing the file should work fine, but no log file will be produced as a result
 
 ## State-specific Notes
 # - 
-
-# Temp: delete this later
 
 library(tidyverse)
 library(DBI)
@@ -23,12 +21,25 @@ source("code/params.R")
 
 # License -----------------------------------------------------------------
 
+# previous period license types
+# - which may need updating with new license types
+con <- dbConnect(RSQLite::SQLite(), db_production)
+lic <- tbl(con, "lic") %>%  collect()
+dbDisconnect(con)
+
+# current period license types
 con <- dbConnect(RSQLite::SQLite(), db_raw)
+lic_new <- tbl(con, "lic") %>% 
+    collect() %>%
+    mutate(lic_period = period)
 
-lic <- tbl(con, "lic") %>% 
-    select(raw_lic_id) %>%
-    collect()
-
+# add any new license types
+lic <- bind_rows(lic, lic_new) %>%
+    arrange(lic_period) %>% # preferentially keep existing records
+    group_by(lic_id) %>%
+    slice(1L) %>%
+    ungroup()
+    
 # save as csv for by-hand editing
 dir.create("data", showWarnings = FALSE)
 write_csv(lic, "data/lic.csv")
@@ -91,9 +102,9 @@ sale <- recode_date(sale, "end_date", function(x) str_sub(x, end = 10) %>% ymd()
 cust$cust_period <- period
 sale$sale_period <- period
 
-# only keep columns of interest
-cust <- select(cust, -Gender, -Residency)
-sale <- select(sale, -Pricecode, -SKU)
+# only keep columns of interest (need to be specified)
+cust <- select(cust, cols_to_keep)
+sale <- select(sale, cols_to_keep)
 
 # check the data standardization rules
 data_check_standard(cust, lic, sale)
