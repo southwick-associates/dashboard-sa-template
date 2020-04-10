@@ -21,8 +21,7 @@ read_lines(cust_file, n_max = 2)
 
 ## note: all the read functions for pulling in data will be state-specific
 cust <- read_delim(
-    cust_file,
-    progress = FALSE,
+    cust_file, delim = ",", progress = FALSE,
     col_types = cols(.default = col_character())
 )
 problems(cust) # looking for import problems
@@ -36,8 +35,7 @@ glimpse(cust)
 read_lines(sale_file, n_max = 2)
 
 sale <- read_delim(
-    sale_file,
-    progress = FALSE,
+    sale_file, delim = ",", progress = FALSE,
     col_types = cols(.default = col_character())
 )
 problems(sale)
@@ -50,9 +48,12 @@ glimpse(sale)
 
 read_lines(lic_file, n_max = 2)
 
-lic <- read_csv(lic_file, col_types = cols(.default = col_character))
+lic <- read_delim(
+    lic_file, delim = ",",
+    col_types = cols(.default = col_character())
+)
 problems(lic)
-check_raw_lines(cust, cust_file)
+check_raw_lines(lic, lic_file)
 
 lic <- mutate(lic, raw_lic_id = row_number())
 glimpse(lic)
