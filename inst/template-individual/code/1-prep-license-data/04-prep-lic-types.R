@@ -2,14 +2,13 @@
 # https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/data-schema.md
 # - add lic$type
 # - add lic$duration
-# - (maybe) add lic$lic_res
-
-# TODO: Incomplete template
+# - add lic$lic_res (if residency isn't already provided by the state at the transaction-level)
 
 ## State-specific Notes
 # - 
 
 library(tidyverse)
+source("code/params.R")
 
 # You may be able to identify lic$type based on logic of a variable supplied by
 #  the state (which we request). Otherwise, it will involve manually editing
@@ -19,6 +18,9 @@ library(tidyverse)
 
 # 1. load data
 lic <- read_csv("data/lic.csv")
+
+# examine new license types
+filter(lic, lic_period == period)
 
 # 2. create lic$type
 

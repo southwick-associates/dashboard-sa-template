@@ -127,6 +127,11 @@ count(sale, sale_period)
 # data.table is MUCH faster and more memory efficient than dplyr for this
 # - dplyr will choke once you get in the tens of millions of rows
 
+# check for customer ID duplicates
+# - and make sure ID duplicates aren't actually different customers
+dups <- count(cust, cust_id) %>% filter(n > 1)
+dups %>% sample_n(10) %>% left_join(cust, by = "cust_id")
+
 # we only want the most recent record for a given customer ID
 # - grouping by customer ID and preferring more recent records
 setDT(cust)
