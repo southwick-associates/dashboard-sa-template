@@ -27,12 +27,20 @@ source("../params.R")
 ## Load Data 
 
 ```{r}
+lic <- read_csv("../../data/lic-clean.csv") %>%
+    filter(type %in% c("fish", "hunt", "combo", "trap"))
+
 con <- dbConnect(RSQLite::SQLite(), db_standard)
-sale <- tbl(con, "sale") %>% select(lic_id, cust_id, year) %>% collect()
-cust <- tbl(con, "cust") %>% select(cust_id, sex, dob, cust_res) %>% collect()
+sale <- tbl(con, "sale") %>% 
+    select(lic_id, cust_id, year, dot, start_date, end_date) %>%
+    collect() %>%
+    semi_join(lic, by = "lic_id")
+cust <- tbl(con, "cust") %>% 
+    select(cust_id, sex, dob, cust_res) %>% 
+    collect() %>%
+    semi_join(sale, by = "cust_id")
 dbDisconnect(con)
 
-lic <- read_csv("../../data/lic-clean.csv")
 cust <- df_factor_sex(cust, "sex") %>% 
     df_factor_res("cust_res") %>%
     mutate(dob = ymd(dob), birth_year = year(dob))
@@ -117,7 +125,7 @@ plot_demo(fish, c("sex", "age", "cust_res"), trend = TRUE)
 
 ### Year vs Transaction Date
 
-The year variable provided by the state doesn't always line up with transaction dates. This typically has to do with a "license year" not directly corresponding to calendar year (at least for certain license types). For dashboards, we ultimately want the `sale$year` variable to correspond with calendar year (i.e., year should be based on `sale$dot` in the production database).
+The year variable provided by the state doesn't always line up with transaction dates. This typically has to do with a "license year" not directly corresponding to calendar year (at least for certain license types).
 
 ```{r}
 sale <- mutate_at(sale, vars(dot, start_date, end_date), "ymd")

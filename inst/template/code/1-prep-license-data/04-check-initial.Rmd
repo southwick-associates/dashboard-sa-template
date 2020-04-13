@@ -25,12 +25,19 @@ source("../params.R")
 ## Load Data 
 
 ```{r}
+lic <- read_csv("../../data/lic-clean.csv") %>%
+    filter(type %in% c("hunt", "fish", "combo"))
+
 con <- dbConnect(RSQLite::SQLite(), db_standard)
-sale <- tbl(con, "sale") %>% select(lic_id, cust_id, year) %>% collect()
-cust <- tbl(con, "cust") %>% select(cust_id, sex, dob, cust_res) %>% collect()
+sale <- tbl(con, "sale") %>% 
+    select(lic_id, cust_id, year, dot, start_date, end_date) %>% 
+    collect() %>%
+    semi_join(lic, by = "lic_id")
+cust <- tbl(con, "cust") %>% 
+    select(cust_id, sex, dob, cust_res) %>% 
+    collect()
 dbDisconnect(con)
 
-lic <- read_csv("../../data/lic-clean.csv")
 cust <- df_factor_sex(cust, "sex") %>% 
     df_factor_res("cust_res") %>%
     mutate(dob = ymd(dob), birth_year = year(dob))
