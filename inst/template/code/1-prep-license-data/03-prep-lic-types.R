@@ -2,7 +2,7 @@
 # https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/data-schema.md
 # - add lic$type
 # - add lic$duration
-# - (maybe) add lic$lic_res
+# - add lic$lic_res (if residency isn't already provided by the state at the transaction-level)
 
 ## State-specific Notes
 # - 

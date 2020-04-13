@@ -1,6 +1,6 @@
 # Get documenation needed for dashboard
 
-# Documentation (docx) to be updated for each dashboard. 
+# Documentation (docx) which may need to be updated for the new period
 # - To be stored in the O365 group: [state] > Deliverables
 # - Template in the O365 group: Analyst Docs > Docs to Share with States > XX Method...docx
 

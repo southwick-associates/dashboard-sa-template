@@ -1,8 +1,7 @@
 # finalize production sqlite database
 # https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/data-schema.md
 
-# TODO: incomplete template
-
+# TODO: update with WI code (once complete)
 
 ## State-specific Notes
 # - 
@@ -12,27 +11,56 @@ library(DBI)
 library(lubridate)
 library(salic)
 library(salicprep)
+library(sadash)
 source("code/params.R")
+
+# Pull Geocode ------------------------------------------------------------
+
+dir_geocode <- file.path(dir_sensitive, state, "geocode_addresses")
+files <- list.files(dir_geocode, pattern = "geocode", full.names = TRUE)
+
+# identify customers who have already been geocoded
+read_geocode <- function(f) {
+    f %>% read_csv(
+        skip = 1, col_names = c("zip4dp", "county_fips", "cust_id"),
+        col_types = cols(.default = col_integer(), zip4dp = col_character()),
+        progress = FALSE
+    )
+}
+geocode <- lapply(files, read_geocode) %>% bind_rows()
+if (length(unique(geocode$cust_id)) != nrow(geocode)) {
+    geocode <- group_by(geocode, cust_id) %>% slice(1L) %>% ungroup()
+}
 
 # Load Data ---------------------------------------------------------------
 
-con <- dbConnect(RSQLite::SQLite(), db_standard)
-cust <- tbl(con, "cust") %>% collect()
-sale <- tbl(con, "sale") %>% 
-    select(cust_id, lic_id, year, dot, raw_sale_id, sale_period) %>%
-    collect()
-dbDisconnect(con)
-
 lic <- read_csv("data/lic-clean.csv", col_types = cols(
-    lic_id = col_integer(), 
-    duration = col_integer(),
+    lic_id = col_integer(), duration = col_integer(),
+    lic_res = col_integer(), raw_lic_id = col_integer(),
     .default = col_character()
 ))
 
-# Customer Duplication -----------------------------------------------------
+# no need to bring non-hunting/fishing sales/customers into production db
+lic_slct <- filter(lic, type %in% c("fish", "hunt", "combo", "trap"))
+
+con <- dbConnect(RSQLite::SQLite(), db_standard)
+sale <- tbl(con, "sale") %>% 
+    select(cust_id, lic_id, year, dot, raw_sale_id, sale_period) %>%
+    collect() %>%
+    semi_join(lic_slct, by = "lic_id")
+cust <- tbl(con, "cust") %>% 
+    collect() %>%
+    semi_join(sale, by = "cust_id")
+dbDisconnect(con)
+
+# Customer Duplication Check -------------------------------------------------
 
 # check for duplicates, and deduplicate if necessary
 # https://github.com/southwick-associates/salicprep/blob/master/github_vignettes/customer-deduplication.md
+
+# add geocode info
+cust <- left_join(cust, geocode, by = "cust_id")
+rm(geocode)
 
 # check: exact dups?
 nrow(cust) == length(unique(cust$cust_id)) # should print TRUE (i.e, no exact dups)
@@ -46,6 +74,13 @@ select(cust, dob, last, first) %>% check_dups()
 cust <- cust %>%
     mutate(first2 = str_sub(first, end = 2), last3 = str_sub(last, end = 3))
 select(cust, dob, last3, first2) %>% check_dups() 
+
+# check: adding zip4dp
+# - will produce fewer false positives, but more false negatives
+select(cust, dob, last3, first2, zip4dp) %>% check_dups() 
+
+
+
 
 cust <- select(cust, -last, -first, -last3, -first2)
 

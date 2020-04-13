@@ -17,4 +17,6 @@ data_check_sa(all$cust, all$lic, all$sale)
 run_group("hunt", 'type %in% c("hunt", "combo", "trap")')
 run_group("fish", 'type %in% c("fish", "combo")')
 run_group("all_sports", 'type %in% c("hunt", "trap", "fish", "combo")')
-# etc.
+
+# see previous period code for permission runs
+# and any state-specific needs (e.g., in functions.R)

@@ -24,8 +24,9 @@ sink("3-dashboard-results/log.txt") # log errors/warnings
 hunt <- run_dash("hunt", return_ref = TRUE)
 fish <- run_dash("fish", return_ref = TRUE)
 all_sports <- run_dash("all_sports", return_ref = TRUE)
-run_dash("firearm_deer", hunt) # privilege example
-# etc.
+
+# see previous period code for permission runs
+# and any state-specific needs (e.g., in functions.R)
 
 sink()
 
