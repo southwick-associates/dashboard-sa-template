@@ -15,6 +15,7 @@ Include some notes here about your assessment of the final validation.
 ```{r setup, message=FALSE}
 knitr::opts_chunk$set(comment = NA)
 library(tidyverse)
+library(lubridate)
 library(DBI)
 library(salic)
 library(salicprep)
@@ -67,5 +68,5 @@ plot_demo(fish, c("sex", "agecat", "res"), trend = TRUE)
 
 ```{r}
 sale <- mutate_at(sale, vars(dot), "ymd")
-summary_year_dot(sale, lastyr)
+summary_year_dot(sale, lastyr) %>% knitr::kable()
 ```
