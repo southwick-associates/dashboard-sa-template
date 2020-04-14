@@ -11,7 +11,8 @@ data_archive(
   archive_drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
   pattern = "raw-2...-q.",
   move_folders = TRUE,
-  move_files = FALSE
+  move_files = FALSE,
+  delete_after_copy = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ data_archive(
 \item{move_folders}{If TRUE, will move files within folders matching the pattern}
 
 \item{move_files}{If TRUE, will move files matching the pattern (e.g., sqlite)}
+
+\item{delete_after_copy}{If TRUE, the current_drive files will be deleted 
+after copying (i.e., archived), otherwise not (i.e., backed-up)}
 }
 \description{
 Probably most useful for moving in batches (e.g., looping across states). 
@@ -37,6 +41,7 @@ files to the H drive.
 }
 \seealso{
 Other functions to manage data: 
+\code{\link{data_backup}()},
 \code{\link{data_destroy}()}
 }
 \concept{functions to manage data}

@@ -28,6 +28,7 @@ remove a specified set of files.
 }
 \seealso{
 Other functions to manage data: 
-\code{\link{data_archive}()}
+\code{\link{data_archive}()},
+\code{\link{data_backup}()}
 }
 \concept{functions to manage data}

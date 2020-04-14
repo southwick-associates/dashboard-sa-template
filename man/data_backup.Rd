@@ -2,10 +2,39 @@
 % Please edit documentation in R/data.R
 \name{data_backup}
 \alias{data_backup}
-\title{(Not implemented) Backup databases to archive drive}
+\title{Backup select files for a state to archive drive}
 \usage{
-data_backup()
+data_backup(
+  state,
+  files = c(file.path("E:/SA/Data-sensitive/Data-Dashboards", state,
+    "standard.sqlite3"), file.path("E:/SA/Data-production/Data-Dashboards", state,
+    "license.sqlite3"), file.path("E:/SA/Data-production/Data-Dashboards", state,
+    "history.sqlite3")),
+  archive_drive = "H:",
+  overwrite = FALSE,
+  ...
+)
+}
+\arguments{
+\item{state}{2-letter abbreviation for state}
+
+\item{files}{vector of file paths that will be backed-up}
+
+\item{archive_drive}{drive to which the files will be copied}
+
+\item{overwrite}{If TRUE, existing files in the archive drive can be overwritten}
+
+\item{...}{additional arguments passed to \code{\link[base]{file.copy}}}
 }
 \description{
-(Not implemented) Backup databases to archive drive
+Intended for saving databases that will be overwritten during data updates 
+(e.g., standard, license, history). Note that this is potentially destructive
+to existing files in the archive drive (i.e., existing archived files will
+be overwritten), and you will need to specify overwrite = TRUE in this case.
 }
+\seealso{
+Other functions to manage data: 
+\code{\link{data_archive}()},
+\code{\link{data_destroy}()}
+}
+\concept{functions to manage data}

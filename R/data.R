@@ -12,6 +12,8 @@
 #' @param pattern matching pattern sent to \code{\link[base]{list.files}}
 #' @param move_folders If TRUE, will move files within folders matching the pattern
 #' @param move_files If TRUE, will move files matching the pattern (e.g., sqlite)
+#' @param delete_after_copy If TRUE, the current_drive files will be deleted 
+#' after copying (i.e., archived), otherwise not (i.e., backed-up)
 #' 
 #' @family functions to manage data
 #' @export
@@ -21,7 +23,8 @@ data_archive <- function(
     archive_drive = file.path("H:/SA/Data-sensitive/Data-Dashboards", state),
     pattern = "raw-2...-q.",
     move_folders = TRUE,
-    move_files = FALSE
+    move_files = FALSE,
+    delete_after_copy = TRUE
 ) {
     if (!dir.exists(current_drive)) {
         stop("The", current_drive, "drive doesn't exist", call. = FALSE)
@@ -71,9 +74,50 @@ data_archive <- function(
     }
 }
 
-#' (Not implemented) Backup databases to archive drive
-data_backup <- function() {
+#' Backup select files for a state to archive drive
+#' 
+#' Intended for saving databases that will be overwritten during data updates 
+#' (e.g., standard, license, history). Note that this is potentially destructive
+#' to existing files in the archive drive (i.e., existing archived files will
+#' be overwritten), and you will need to specify overwrite = TRUE in this case.
+#' 
+#' @param state 2-letter abbreviation for state
+#' @param files vector of file paths that will be backed-up
+#' @param archive_drive drive to which the files will be copied
+#' @param overwrite If TRUE, existing files in the archive drive can be overwritten
+#' @param ... additional arguments passed to \code{\link[base]{file.copy}}
+#' 
+#' @family functions to manage data
+#' @export
+data_backup <- function(
+    state, 
+    files = c(
+        file.path("E:/SA/Data-sensitive/Data-Dashboards", state, "standard.sqlite3"),
+        file.path("E:/SA/Data-production/Data-Dashboards", state, "license.sqlite3"),
+        file.path("E:/SA/Data-production/Data-Dashboards", state, "history.sqlite3")
+    ),
+    archive_drive = "H:",
+    overwrite = FALSE, 
+    ...
+) {
+    files <- files[file.exists(files)] # restrict to existing files
     
+    get_target_file <- function(file) {
+        drive <- unlist(strsplit(file, "/"))[1]
+        sub(drive, archive_drive, file)
+    }
+    files_target <- sapply(files, get_target_file, USE.NAMES = FALSE)
+    
+    if (any(file.exists(files_target)) && !overwrite) {
+        stop("You must specify 'overwrite = TRUE' if files already exist in archive.",
+             call. = FALSE)
+    } 
+    
+    for (i in seq_along(files)) {
+        dir.create(dirname(files_target[i]), showWarnings = FALSE, recursive = TRUE)
+        file.copy(files[i], files_target[i], overwrite = overwrite, ...)
+        cat("Copied to:", files_target[i], "\n")
+    }
 }
 
 #' (Not implemented) Permanently remove data
