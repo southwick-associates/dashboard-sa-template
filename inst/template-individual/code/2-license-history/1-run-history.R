@@ -1,6 +1,9 @@
 # run license history for each permission
 # note that code may need to be tweaked for state-specific needs
 
+## State-specific Notes
+# - 
+
 library(tidyverse)
 library(salic)
 library(sadash)
@@ -11,6 +14,10 @@ source("code/2-license-history/functions.R") # run_group()
 # pull license data into a list
 all <- load_license(db_license, yrs)
 data_check_sa(all$cust, all$lic, all$sale)
+
+# remove the "permission" table from db_license if it exists
+# - this prevents between-period column type compatibility issues
+remove_table(db_license, "permission")
 
 # Run by Permission -------------------------------------------------------
 

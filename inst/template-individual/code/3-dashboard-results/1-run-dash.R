@@ -1,5 +1,8 @@
 # run dashboard results for each permission
 
+## State-specific Notes
+# -
+
 library(tidyverse)
 library(salic)
 library(sadash)
@@ -8,7 +11,7 @@ source("code/params.R")
 source("code/3-dashboard-results/functions.R") # run_dash()
 
 # define additional parameters
-all_quarters <- quarter  # quarters to be estimated
+all_quarters <- c(2,4)  # quarters to be estimated
 month_yrs <- c(dashboard_yrs[1]-1, dashboard_yrs) # for sales by month
 
 # pull customer, sales, & population data for state
@@ -19,7 +22,7 @@ pop_county <- load_pop(db_census, state) %>% prep_pop(yrs) %>% left_join(countie
 
 # Run by Permission -------------------------------------------------------
 
-sink("3-dashboard-results/log.txt") # log errors/warnings
+sink("code/3-dashboard-results/log.txt") # log errors/warnings
 
 hunt <- run_dash("hunt", return_ref = TRUE)
 fish <- run_dash("fish", return_ref = TRUE)

@@ -13,7 +13,7 @@ coltyp <- cols(
     .default = col_character(), quarter = col_integer(), year = col_integer(), 
     value = col_double() 
 )
-dat <- list.files("3-dashboard-results/dash", full.names = TRUE) %>%
+dat <- list.files("code/3-dashboard-results/dash", full.names = TRUE) %>%
     lapply(read_csv, col_types = coltyp) %>%
     bind_rows()
 
@@ -59,6 +59,7 @@ dat %>%
 #  O365 > Data Dashboards > [state] > data
 
 # direct input to Tableau
+dir.create("out", showWarnings = FALSE)
 dat %>% mutate(
     segment = tolower(segment),
     metric = case_when(

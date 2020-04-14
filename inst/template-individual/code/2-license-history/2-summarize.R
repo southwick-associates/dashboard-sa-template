@@ -10,5 +10,6 @@ run_summary <- function(data_src = "db_license") {
         knit_root_dir = getwd()
     )
 }
+dir.create("code/2-license-history/summary", showWarnings = FALSE)
 run_summary("db_license") # ignores multi-year/lifetime carry-over
 run_summary("db_history")

@@ -10,13 +10,13 @@ workflow::run_rmd_html("code/1-prep-license-data/05-check-initial.Rmd")
 workflow::run_html("code/1-prep-license-data/06-finalize.R")
 workflow::run_rmd_html("code/1-prep-license-data/07-check-final.Rmd")
 
-# build license history
-workflow::run_html("code/2-license-history/1-run-history.R")
-workflow::run_html("code/2-license-history/2-summarize.R")
+# build license history by running interactively:
+# - code/2-license-history/1-run-history.R
+# - code/2-license-history/2-summarize.R
 
-# prepare dashboard summary data
-workflow::run_html("code/3-dashboard-results/1-run-dash.R")
-# - the 2nd script is to be run interactively
+# prepare dashboard summary data by running interactively:
+# - code/3-dashboard-results/1-run-dash.R
+# - code/3-dashboard-results/2-combine-and-check.R
 
-# documentation
-# - intended to be run interactively
+# prepare documentation by running interactively:
+# - code/4-methods-summary/documentation.R
