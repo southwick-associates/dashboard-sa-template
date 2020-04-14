@@ -13,18 +13,32 @@ source("code/params.R")
 
 # Load Data ---------------------------------------------------------------
 
-con <- dbConnect(RSQLite::SQLite(), db_standard)
-cust <- tbl(con, "cust") %>% collect()
-sale <- tbl(con, "sale") %>% 
-    select(cust_id, lic_id, year, dot, raw_sale_id, sale_period) %>%
-    collect()
-dbDisconnect(con)
-
 lic <- read_csv("data/lic-clean.csv", col_types = cols(
     lic_id = col_integer(), 
     duration = col_integer(),
     .default = col_character()
 ))
+
+# don't need non-hunting/fishing sales/customers in production db
+lic_slct <- filter(lic, type %in% c("fish", "hunt", "combo"))
+
+con <- dbConnect(RSQLite::SQLite(), db_standard)
+sale <- tbl(con, "sale") %>% 
+    select(cust_id, lic_id, year, dot, raw_sale_id, sale_period) %>%
+    collect() %>%
+    semi_join(lic_slct, by = "lic_id")
+cust <- tbl(con, "cust") %>% 
+    collect() %>%
+    semi_join(sale, by = "cust_id")
+dbDisconnect(con)
+
+# Recoding Customer Vars --------------------------------------------------
+
+cust <- mutate(cust, birth_year = year(ymd(dob)))
+summary(cust$birth_year)
+
+cust$birth_year <- ifelse(cust$birth_year < 1900, NA_integer_, cust$birth_year)
+summary(cust$birth_year)
 
 # Customer Duplication -----------------------------------------------------
 
@@ -43,19 +57,6 @@ select(cust, dob, last, first) %>% check_dups()
 cust <- cust %>%
     mutate(first2 = str_sub(first, end = 2), last3 = str_sub(last, end = 3))
 select(cust, dob, last3, first2) %>% check_dups() 
-
-cust <- select(cust, -last, -first, -last3, -first2)
-
-# Recoding Customer Vars --------------------------------------------------
-
-cust <- cust %>% mutate(
-    dob = ymd(dob),
-    birth_year = year(dob)
-)
-summary(cust$birth_year)
-
-cust$birth_year <- ifelse(cust$birth_year < 1900, NA_integer_, cust$birth_year)
-summary(cust$birth_year)
 
 cust <- select(cust, cust_id, birth_year, sex, cust_res, cust_period, raw_cust_id)
 
@@ -96,19 +97,11 @@ sale <- sale %>% mutate(
 
 # drop records without reliable dates
 # - again with caution, don't want to drop non-negligible amounts of data we need
+filter(sale, is.na(dot)) # check
 sale <- filter(sale, !is.na(dot))
 sale <- select(sale, cust_id, lic_id, year, month, dot, res, raw_sale_id, sale_period)
 
 # Final Prepartion --------------------------------------------------------
-
-# only lic$type hunt, fish, combo are needed
-lic %>%
-    filter(!type %in% c("fish", "hunt", "combo")) %>%
-    knitr::kable(caption = "License sales to be excluded")
-
-lic <- filter(lic, type %in% c("fish", "hunt", "combo"))
-sale <- semi_join(sale, lic, by = "lic_id")
-cust <- semi_join(cust, sale, by = "cust_id")
 
 # ensure dates are stored as character (for SQLite)
 sale <- date_to_char(sale)

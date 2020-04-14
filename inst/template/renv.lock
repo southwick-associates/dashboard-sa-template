@@ -650,15 +650,15 @@
     },
     "salicprep": {
       "Package": "salicprep",
-      "Version": "0.3.0",
+      "Version": "0.3.1",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "southwick-associates",
       "RemoteRepo": "salicprep",
       "RemoteRef": "master",
-      "RemoteSha": "0394b0f6bb38a594ba19033d567cc2582428e508",
-      "Hash": "932caa2843123163c0e4cb6c23e69c02"
+      "RemoteSha": "4c068b442201a0224c4e21c50513e669256bb3e2",
+      "Hash": "936d238bf39683259e072c2d6bd73cc3"
     },
     "scales": {
       "Package": "scales",
