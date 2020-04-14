@@ -101,6 +101,10 @@ data_backup <- function(
     ...
 ) {
     files <- files[file.exists(files)] # restrict to existing files
+    if (length(files) == 0) {
+        cat("No files to be backed up in state", state, "\n")
+        return(invisible())
+    }
     
     get_target_file <- function(file) {
         drive <- unlist(strsplit(file, "/"))[1]
