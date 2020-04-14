@@ -49,8 +49,6 @@ containing folders, as well as .txt/.tex files.
 }
 \seealso{
 Other functions to update projects: 
-\code{\link{data_archive}()},
-\code{\link{data_destroy}()},
 \code{\link{setup_data_dive}()}
 }
 \concept{functions to update projects}

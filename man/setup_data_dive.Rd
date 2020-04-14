@@ -31,8 +31,6 @@ folder in the working directory (i.e., when state and time_period are NULL).
 }
 \seealso{
 Other functions to update projects: 
-\code{\link{data_archive}()},
-\code{\link{data_destroy}()},
 \code{\link{update_project}()}
 }
 \concept{functions to update projects}
