@@ -84,3 +84,23 @@ new_project_individual <- function(
     new_project(state, period, template_path = template_path, 
                 print_message = print_message, ...)
 }
+
+#' Setup a new summary state dashboard with default directories and template scripts
+#' 
+#' For states which process their own dashboard summaries.
+#' 
+#' @inheritParams new_project
+#' @param ... other arguments passed to \code{\link{new_project}}
+#' 
+#' @family functions for new projects based on templates
+#' @export
+#' @examples
+#' # new_project_summary("YY", "2019-q4")
+new_project_summary <- function(
+    state, period, template_path = "template-summary",
+    print_message = "A new summary data dashboard project has been initialized",
+    ...
+) {
+    new_project(state, period, template_path = template_path, 
+                print_message = print_message, ...)
+}

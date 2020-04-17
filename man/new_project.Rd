@@ -42,6 +42,7 @@ This is intended to be run before data processing for a new state begins.
 }
 \seealso{
 Other functions for new projects based on templates: 
-\code{\link{new_project_individual}()}
+\code{\link{new_project_individual}()},
+\code{\link{new_project_summary}()}
 }
 \concept{functions for new projects based on templates}

@@ -7,7 +7,7 @@ library(salicprep)
 
 # load
 # - data from the state should be placed in "data/"
-dat <- read_csv("data/Nebraskafull-year2010to2018.csv")
+dat <- read_csv("data/")
 
 # write to "out/"
 dir.create("out", showWarnings = FALSE)
