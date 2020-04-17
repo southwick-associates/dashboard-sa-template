@@ -8,6 +8,8 @@
 ^inst/template/renv/staging$
 ^inst/template-individual/renv/library$
 ^inst/template-individual/renv/staging$
+^inst/template-summary/renv/library$
+^inst/template-summary/renv/staging$
 ^github_vignettes$
 ^lictemplate\.Rproj$
 ^img$

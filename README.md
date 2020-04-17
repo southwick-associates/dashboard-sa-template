@@ -18,7 +18,7 @@ Lictemplate provides functions to automate license data workflows:
 
 - **Initialize new projects**: 
     + `new_project()` for a basic processing workflow (e.g., national/regional dashboards)
-    + TODO: `new_project_summary()` for states that provide summarized data for national/regional dashboards
+    + `new_project_summary()` for states that provide summarized data for national/regional dashboards
     + `new_project_individual()` for the more involved individual state dashboards
 - **Update existing projects:**
     + `update_project()` to copy the workflow from an earlier time period with updated parameters

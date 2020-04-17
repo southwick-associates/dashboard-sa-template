@@ -47,6 +47,9 @@ update_project <- function(
     copy_files <- function(file_names) {
         for (i in file_names) {
             old <- file.path(ref_path, i)
+            if (!file.exists(old)) {
+                return(invisible())
+            }
             new <- file.path(analysis_path, i)
             if (file.exists(old)) {
                 dir.create(dirname(new), recursive = TRUE, showWarnings = FALSE)
