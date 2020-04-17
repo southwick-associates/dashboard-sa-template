@@ -48,7 +48,7 @@ update_project <- function(
         for (i in file_names) {
             old <- file.path(ref_path, i)
             if (!file.exists(old)) {
-                return(invisible())
+                next
             }
             new <- file.path(analysis_path, i)
             if (file.exists(old)) {

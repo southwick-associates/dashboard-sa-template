@@ -53,6 +53,9 @@ setup_project <- function(
 #' @export
 replace_params <- function(files, new, old) {
     for (f in files) {
+        if (!file.exists(f)) {
+            next
+        }
         x <- readLines(f)
         for (i in seq_along(new)) {
             x <- gsub(old[i], new[i], x)
