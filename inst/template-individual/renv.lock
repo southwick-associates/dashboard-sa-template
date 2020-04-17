@@ -674,15 +674,15 @@
     },
     "sadash": {
       "Package": "sadash",
-      "Version": "1.2.1",
+      "Version": "1.2.3",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "southwick-associates",
       "RemoteRepo": "sadash",
       "RemoteRef": "master",
-      "RemoteSha": "9ffd41f43bbb192a2a6e840d18c582aa79f6506b",
-      "Hash": "08659fdce6091d58a7c0e21b8d3ed970"
+      "RemoteSha": "c0b6463720d1d2ed8f79cc41218f75a0f4f771f1",
+      "Hash": "5246e5798c9f175950c8faae50055009"
     },
     "salic": {
       "Package": "salic",

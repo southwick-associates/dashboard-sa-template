@@ -17,6 +17,9 @@ dat <- list.files("code/3-dashboard-results/dash", full.names = TRUE) %>%
     lapply(read_csv, col_types = coltyp) %>%
     bind_rows()
 
+# fill in missing months for consistency across permissions
+dat <- fill_missing_months(dat)
+
 # Check ---------------------------------------------------------------
 
 # visualize dashboard
