@@ -18,10 +18,10 @@
 #' @export
 update_project <- function(
     state, period, ref_period, 
-    ref_path = file.path("E:/SA/Projects/Data-Dashboards", state, ref_period),
-    analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
-    sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
-    production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
+    ref_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Projects/Data-Dashboards", state, ref_period),
+    analysis_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Projects/Data-Dashboards", state, period),
+    sensitive_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Data-Sensitive/Data-Dashboards", state, paste0("raw-", period)),
+    production_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Data-Production/Data-Dashboards", state),
     files_to_keep = c("\\.r", "documentation\\.tex", "\\.txt"),
     top_level_files = c(".Rprofile", "README.md", "renv.lock", "renv/activate.R",  
                         "renv/settings.dcf")

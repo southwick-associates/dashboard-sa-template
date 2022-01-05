@@ -7,10 +7,10 @@
 new_project(
   state,
   period,
-  analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
-  sensitive_path = file.path("E:/SA/Data-Sensitive/Data-Dashboards", state,
+  analysis_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Projects/Data-Dashboards", state, period),
+  sensitive_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Data-Sensitive/Data-Dashboards", state,
     paste0("raw-", period)),
-  production_path = file.path("E:/SA/Data-Production/Data-Dashboards", state),
+  production_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Data-Production/Data-Dashboards", state),
   template_path = "template",
   print_message = "A new license data project has been initialized"
 )

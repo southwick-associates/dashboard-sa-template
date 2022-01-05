@@ -7,7 +7,7 @@
 setup_data_dive(
   state,
   period,
-  analysis_path = file.path("E:/SA/Projects/Data-Dashboards", state, period),
+  analysis_path = file.path("E:/OneDrive - Southwick Associates, Inc/Documents/SA/Projects/Data-Dashboards", state, period),
   dive_path = file.path(analysis_path, "code", "5-data-dive")
 )
 }
